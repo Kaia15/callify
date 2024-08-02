@@ -1,4 +1,4 @@
-# YZoomie
+# Callify
 
 ## Reference: https://github.com/ansulagrawal/zoom-clone/
 ## Tech stacks
