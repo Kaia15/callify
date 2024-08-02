@@ -2,8 +2,8 @@
 
 ## Reference: https://github.com/ansulagrawal/zoom-clone/
 ## Tech stacks
-1. Frontend: React.js, Clerk Library for Authentication.
-2. Backend: Spring Boot/Java
+1. Frontend: React.js, 
+2. Backend: Spring Boot/Java, Nodemailer (SMTP)
    
 ## Frontend
 1. Routes:
@@ -16,8 +16,8 @@
    - useUser
 
 ## Backend
-1. userService
-2. meetingService
+1. Services: userService, meetingService.
+2. Architecture: Microservices OR Monolith? @ThienBui
 
 ## Database
 1. Schemas:
