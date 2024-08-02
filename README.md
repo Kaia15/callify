@@ -32,5 +32,5 @@
 
 4. Set up your application
    - Access via link: https://start.spring.io/ to download your spring boot application package.
-   - Some packages added to download: PomXML, data-jbc, jpa, SQL (Postgresql, MySQL), rest, web, etc.
+   - Some packages added to download: **PomXML, data-jbc, jpa, SQL (Postgresql, MySQL), rest, web**, etc.
    - After installation, export .zip folder and open in VSCode.
