@@ -26,7 +26,7 @@
 
 2. Relations:
    - User / Meetings: many to many, (one Meeting can have many User(s), one User can join many Meeting(s))
-   - ORM (Object Relation Mapping): Hibernates
+   - ORM (Object Relation Mapping): Hibernate
   
 3. PostGRESQL
    - Try to set up following documentation: https://www3.ntu.edu.sg/home/ehchua/programming/sql/PostgreSQL_GetStarted.html.
