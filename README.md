@@ -16,7 +16,7 @@
    - useUser
 
 ## Backend
-1. Services: userService, meetingService.
+1. Services: userService, meetingService, authService
 2. Architecture: Microservices OR Monolith? @ThienBui
 
 ## Database
