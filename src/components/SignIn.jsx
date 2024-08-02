@@ -1,6 +1,7 @@
 import { useSignIn } from "../hooks/useSignIn";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { PencilIcon } from '@heroicons/react/outline';
 
 export default function SignIn() {
     const { email, password, setEmail, setPassword, isSignedIn, signIn, user,verificationCode,setVerificationCode } = useSignIn();
@@ -90,7 +91,17 @@ export default function SignIn() {
                                         onChange={(e) => setEmail(e.target.value)} />
                                     :
                                     <div class="mt-5 flex flex-col items-start">
-                                        <div className="my-4 font-bold"> {email} </div>
+                                        <div className="my-4 flex flex-row font-bold"> {email} 
+                                        <span className="ml-2">
+                                            <button className="flex items-center"
+                                            onClick={() => {
+                                                setCredentialInfo(false);
+                                                setSentCode(false);
+                                            }}>
+                                            <PencilIcon className="h-5 w-5 text-indigo-600 mx-4" /> {/* Adjust size and color as needed */}
+                                            </button>
+                                        </span>
+                                        </div>
                                         {credentialInfo && 
                                         <div class="mb-6 border-b text-center">
                                             <div
@@ -123,13 +134,13 @@ export default function SignIn() {
                                             Send verification code
                                         </label>
                                         {checked.option2 && 
-                                        <div>
+                                        <div class="w-full">
                                             <button
                                                 class="mt-5 tracking-wide font-semibold text-indigo-500 bg-gray-100 w-full py-4 rounded-lg hover:bg-gray-300 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
-                                                onClick={() => {}}>
-                                                <span class="ml-3">
-                                                    Send code!
-                                                </span>
+                                                onClick={() => {
+                                                    setSentCode(true);
+                                                }}>
+                                                {(!sentCode) ? "Send code" : "Resend code"}
                                             </button>
                                             <input
                                             class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-3"
