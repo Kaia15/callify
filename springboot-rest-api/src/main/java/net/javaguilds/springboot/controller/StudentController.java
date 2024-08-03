@@ -48,13 +48,13 @@ public class StudentController {
         return new Student(id, "request-param " + firstName, "request-param " +lastName);
     }
 
-    // REST API: POST
+    // REST API: POST - creating resource
     // @PostMapping and @RequestBody
     // The RequestBody annoation is responsible for retrieving the HTTP request body and
     // automatically converting it to the Java object
 
 
-    @PostMapping("student/create")
+    @PostMapping("students/create")
     // By default if we dont have Response Status it will automatically return 200
     @ResponseStatus(HttpStatus.CREATED)
     public Student createStudent(@RequestBody Student student){
@@ -62,5 +62,20 @@ public class StudentController {
         System.out.println(student.getFirstName());
         System.out.println(student.getLastName());
         return student;
+    }
+
+    // PUT request - update existing resource
+    @PutMapping("students/{id}/update")
+    public Student updateStudent(@RequestBody Student student,@PathVariable("id") int studentId){
+        System.out.println(student.getFirstName());
+        System.out.println(student.getLastName());
+        return student;
+    }
+
+    // DELETE request
+    @DeleteMapping("students/{id}/delete")
+    public String deleteStudent(@PathVariable("id") int studentId){
+        System.out.println(studentId);
+        return "Student deleted successfully!";
     }
 }
