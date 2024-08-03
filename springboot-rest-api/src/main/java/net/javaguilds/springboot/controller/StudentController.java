@@ -9,6 +9,7 @@ import java.sql.Struct;
 import java.util.ArrayList;
 
 @RestController
+@RequestMapping("students")
 public class StudentController {
 
     // http://localhost:8080/student
@@ -22,7 +23,7 @@ public class StudentController {
         return ResponseEntity.ok().header("custom-header", "student-name")
                 .body(student);
     }
-    @GetMapping("students")
+    @GetMapping
     public ResponseEntity<ArrayList<Student>> getStudents() {
         ArrayList<Student> students = new ArrayList<Student>();
         students.add(new Student(2, "Johnson", "Chen"));
@@ -39,7 +40,7 @@ public class StudentController {
 
     // @PathVariable annotation used on a method argument to bind it
     // to a value of a URI template variable
-    @GetMapping("students/{id}/{first-name}/{last-name}")
+    @GetMapping("{id}/{first-name}/{last-name}")
     public ResponseEntity<Student> studentPathVariable(@PathVariable int id,
                                        @PathVariable("first-name") String firstName,
                                        @PathVariable("last-name") String lastName) {
@@ -49,7 +50,7 @@ public class StudentController {
 
     //REST API with request param
     //http://localhost:8080/students/query?id=1
-    @GetMapping("/students/query")
+    @GetMapping("query")
     public ResponseEntity<Student> studentRequestVariable(@RequestParam int id,
                                           @RequestParam String firstName,
                                           @RequestParam String lastName){
@@ -63,7 +64,7 @@ public class StudentController {
     // automatically converting it to the Java object
 
 
-    @PostMapping("students/create")
+    @PostMapping("create")
     // By default if we dont have Response Status it will automatically return 200
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Student> createStudent(@RequestBody Student student){
@@ -74,7 +75,7 @@ public class StudentController {
     }
 
     // PUT request - update existing resource
-    @PutMapping("students/{id}/update")
+    @PutMapping("{id}/update")
     public ResponseEntity<Student> updateStudent(@RequestBody Student student,@PathVariable("id") int studentId){
         System.out.println(student.getFirstName());
         System.out.println(student.getLastName());
@@ -83,7 +84,7 @@ public class StudentController {
     }
 
     // DELETE request
-    @DeleteMapping("students/{id}/delete")
+    @DeleteMapping("{id}/delete")
     public ResponseEntity<String> deleteStudent(@PathVariable("id") int studentId){
         System.out.println(studentId);
         return ResponseEntity.ok("Student deleted successfully!");
