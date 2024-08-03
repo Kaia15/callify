@@ -25,7 +25,7 @@ export default function SignUp() {
                     <div class="w-full flex-1 mt-8">
                         <div class="flex flex-row items-center">
                             <button
-                                class="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline mx-2">
+                                class="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-blue-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline mx-2">
                                 <div class="bg-white p-2 rounded-full">
                                     <svg class="w-4" viewBox="0 0 533.5 544.3">
                                         <path
@@ -48,7 +48,7 @@ export default function SignUp() {
                             </button>
 
                             <button
-                                class="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline mx-2">
+                                class="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-blue-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline mx-2">
                                 <div class="bg-white p-1 rounded-full">
                                     <svg class="w-6" viewBox="0 0 32 32">
                                         <path fill-rule="evenodd"
@@ -78,7 +78,7 @@ export default function SignUp() {
                                 type="password" placeholder="Password" value={password}
                                 onChange={(e) => setPassword(e.target.value)}/>
                             <button
-                                class="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                                class="mt-5 tracking-wide font-semibold bg-blue-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                                 onClick={signUp}>
                                 <svg class="w-6 h-6 -ml-2" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round">
@@ -91,7 +91,7 @@ export default function SignUp() {
                                 </span>
                             </button>
                             <button
-                                class="mt-5 tracking-wide font-semibold text-indigo-500 bg-gray-100 w-full py-4 rounded-lg hover:bg-gray-300 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                                class="mt-5 tracking-wide font-semibold text-blue-500 bg-gray-100 w-full py-4 rounded-lg hover:bg-gray-300 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                                 onClick={() => navigate('/signin')}>
                                 {/* <svg class="w-6 h-6 -ml-2" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round">
@@ -117,8 +117,8 @@ export default function SignUp() {
                     </div>
                 </div>
             </div>
-            <div class="flex-1 bg-indigo-100 text-center hidden lg:flex">
-            <div class="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat bg-[url('')]">
+            <div class="flex-1 bg--blue-100 text-center hidden lg:flex">
+            <div class="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat bg-[url('https://file-paa.zoom.us/1UfmadjzSOiDknZKy1Md4w/MS4yLsR5ExvSc1kQdZoMO7cL6l86hmQJuvLwytZsNaJEQ1tQ/53244c92-ddc8-4d5b-a94c-f6ab21f91b55.png')]">
             </div>
             </div>
         </div>

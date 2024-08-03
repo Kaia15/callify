@@ -40,7 +40,7 @@ export default function SignIn() {
                         <div class="w-full flex-1 mt-8">
                             <div class="flex flex-row items-center">
                                 <button
-                                    class="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline mx-2">
+                                    class="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-blue-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline mx-2">
                                     <div class="bg-white p-2 rounded-full">
                                         <svg class="w-4" viewBox="0 0 533.5 544.3">
                                             <path
@@ -63,7 +63,7 @@ export default function SignIn() {
                                 </button>
 
                                 <button
-                                    class="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline mx-2">
+                                    class="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-blue-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline mx-2">
                                     <div class="bg-white p-1 rounded-full">
                                         <svg class="w-6" viewBox="0 0 32 32">
                                             <path fill-rule="evenodd"
@@ -98,14 +98,14 @@ export default function SignIn() {
                                                 setCredentialInfo(false);
                                                 setSentCode(false);
                                             }}>
-                                            <PencilIcon className="h-5 w-5 text-indigo-600 mx-4" /> {/* Adjust size and color as needed */}
+                                            <PencilIcon className="h-5 w-5 text-blue-500 mx-4" /> {/* Adjust size and color as needed */}
                                             </button>
                                         </span>
                                         </div>
                                         {credentialInfo && 
                                         <div class="mb-6 border-b text-center">
                                             <div
-                                                class="text-lg text-indigo-600 tracking-wide font-medium bg-white transform translate-y-1/2">
+                                                class="text-lg text-blue-500 tracking-wide font-medium bg-white transform translate-y-1/2">
                                                 Choose credentials methods
                                             </div>
                                         </div>}
@@ -136,7 +136,7 @@ export default function SignIn() {
                                         {checked.option2 && 
                                         <div class="w-full">
                                             <button
-                                                class="mt-5 tracking-wide font-semibold text-indigo-500 bg-gray-100 w-full py-4 rounded-lg hover:bg-gray-300 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                                                class="mt-5 tracking-wide font-semibold text-blue-500 bg-gray-100 w-full py-4 rounded-lg hover:bg-gray-300 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                                                 onClick={() => {
                                                     setSentCode(true);
                                                 }}>
@@ -150,20 +150,20 @@ export default function SignIn() {
                                     </div>
                                 }
                                 {(!credentialInfo) ? <button
-                                    class="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                                    class="mt-5 tracking-wide font-semibold bg-blue-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                                     onClick={() => setCredentialInfo(true)}>
                                     <span class="ml-3">
                                         Continue
                                     </span>
                                 </button>: <button
-                                    class="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                                    class="mt-5 tracking-wide font-semibold bg-blue-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                                     onClick={signIn}>
                                     <span class="ml-3">
                                         Continue
                                     </span>
                                 </button>}
                                 <button
-                                    class="mt-5 tracking-wide font-semibold text-indigo-500 bg-gray-100 w-full py-4 rounded-lg hover:bg-gray-300 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                                    class="mt-5 tracking-wide font-semibold text-blue-500 bg-gray-100 w-full py-4 rounded-lg hover:bg-gray-300 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                                     onClick={() => navigate('/signup')}>
                                     <span class="ml-3">
                                         Don't have one? Create account
@@ -183,8 +183,8 @@ export default function SignIn() {
                         </div>
                     </div>
                 </div>
-                <div class="flex-1 bg-indigo-100 text-center hidden lg:flex">
-                    <div class="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat bg-[url('')]">
+                <div class="flex-1 bg-blue-100 text-center hidden lg:flex">
+                    <div class="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat bg-[url('https://file-paa.zoom.us/1UfmadjzSOiDknZKy1Md4w/MS4yLsR5ExvSc1kQdZoMO7cL6l86hmQJuvLwytZsNaJEQ1tQ/53244c92-ddc8-4d5b-a94c-f6ab21f91b55.png')]">
                     </div>
                 </div>
             </div>
