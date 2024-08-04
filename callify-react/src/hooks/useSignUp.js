@@ -8,6 +8,7 @@ export function useSignUp() {
     const [password,setPassword] = useState("");
     const signUp = async function () {
         // TO-DO: send request to backend services
+        // create ZOOM accounts for users who do not register ZOOM anytime before
     }
 
     useEffect(() => {}, [isSignedIn]);
