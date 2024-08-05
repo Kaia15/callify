@@ -5,8 +5,7 @@ MyApp is a Spring Boot application consisting of two services, Service A and Ser
 
 ## Project Structure
 
-![folder-structure](https://github.com/user-attachments/assets/36e91a38-c6c1-45c7-b181-62e695f2e753)
-
+![RestTemplate](https://github.com/user-attachments/assets/5497a79f-a429-4c4b-87a9-389f269f4e9c)
 
 ## Components
 
