@@ -1,110 +1,86 @@
-import axios from "axios";
-import qs from "qs";
-import { Buffer } from 'buffer'; // Still need this for base64 encoding/decoding
-import HmacSHA256 from 'crypto-js/hmac-sha256';
-import Base64 from 'crypto-js/enc-base64';
+import jwt from 'jwt-simple';
+import CryptoJS from 'crypto-js';
+import { ZoomMtg } from '@zoomus/websdk';
 
-const clientId = "bUyNiWeqRqWWeHEGBYLHDA";
-const clientSecret = "1ehefwuORblEE5HfetfMKC3XoqjRzquJ";
+// Zoom API credentials
 
-const getAccessToken = async function () {
-    const tokenUrl = "https://zoom.us/oauth/token";
-    const auth = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
+// NEED TO MOVE ALL TO BACKEND_SIDE
+const API_KEY = 'ShwzewRtT4Rs9OyeViU9w';
+const API_SECRET = 't8N0q74L0B2nXBknDNvR547WoUyTgkia';
 
-    try {
-        const response = await axios.post(
-            tokenUrl,
-            qs.stringify({
-                grant_type: "client_credentials",
-            }),
-            {
-                headers: {
-                    Authorization: `Basic ${auth}`,
-                    "Content-Type": "application/x-www-form-urlencoded",
-                },
-            }
-        );
-        return { accessToken: response.data.access_token };
-    } catch (error) {
-        console.error("Error fetching access token:", error);
-        throw error;
-    }
+// Function to generate JWT token
+const generateJwtToken = () => {
+    const payload = {
+        iss: API_KEY,
+        exp: Math.floor(Date.now() / 1000) + 3600, // Token expires in 1 hour
+    };
+
+    return jwt.encode(payload, API_SECRET, 'HS256');
 };
 
-const createMeeting = async function (payload) {
-    const { accessToken, userId } = payload;
+// Generate a Zoom SDK signature using crypto-js
+const generateSignature = (meetingNumber) => {
+    const timestamp = new Date().getTime() - 30000; // Time in milliseconds
+    const msg = `${API_KEY}${meetingNumber}${timestamp}${API_SECRET}`;
+    const hash = CryptoJS.HmacSHA256(msg, API_SECRET).toString(CryptoJS.enc.Base64);
+    return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(`${API_KEY}.${meetingNumber}.${timestamp}.${hash}`));
+};
 
+// Create a meeting using Zoom API
+export const createMeeting = async () => {
     try {
-        const response = await axios.post(
-            `https://api.zoom.us/v2/users/${userId}/meetings`,
-            {
+        const token = generateJwtToken(); // Generate JWT token
+
+        const response = await fetch('https://api.zoom.us/v2/users/me/meetings', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
                 topic: 'Test Meeting',
                 type: 1, // Instant meeting
-            },
-            {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json',
-                },
-            }
-        );
+                duration: 30, // Duration in minutes
+                timezone: 'America/Los_Angeles',
+                password: '123456' // Optional: Set a meeting password
+            })
+        });
 
-        return { meetingNumber: response.data.id };
+        const data = await response.json();
+        return data;
     } catch (error) {
         console.error('Error creating meeting:', error);
         throw error;
     }
 };
 
-const retrieveUser = async function (payload) {
-    const { email, accessToken } = payload;
-    try {
-        const response = await axios.get(`https://api.zoom.us/v2/users/${email}`, {
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-            },
-        });
+// Join a meeting using Zoom SDK
+export const joinMeeting = (meetingNumber, userName, password) => {
+    const signature = generateSignature(meetingNumber);
 
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching user info:', error);
-        throw error;
-    }
-};
+    ZoomMtg.preLoadWasm();
+    ZoomMtg.prepareWebSDK();
 
-// Helper function to generate a Zoom signature
-const generateSignature = (meetingNumber, apiKey, apiSecret) => {
-    const timestamp = new Date().getTime() - 30000; // Time in milliseconds
-    const msg = Buffer.from(apiKey + meetingNumber + timestamp + apiSecret).toString('base64');
-    const hash = HmacSHA256(msg, apiSecret);
-    const hashInBase64 = Base64.stringify(hash);
-    return Buffer.from(`${apiKey}.${meetingNumber}.${timestamp}.${hashInBase64}`).toString('base64');
-};
-
-export const getSignature = async (email) => {
-    try {
-        // Step 1: Get Access Token
-        const { accessToken } = await getAccessToken();
-
-        // Step 2: Retrieve User ID
-        const user = await retrieveUser({ email, accessToken });
-        const userId = user.id;
-
-        // Step 3: Create Meeting
-        const { meetingNumber } = await createMeeting({ accessToken, userId });
-
-        // Step 4: Generate Signature
-        const apiKey = clientId;
-        const apiSecret = clientSecret;
-        const signature = generateSignature(meetingNumber, apiKey, apiSecret);
-
-        return {
-            meetingNumber,
-            signature,
-            userId,
-        };
-    } catch (error) {
-        console.error('Error in getSignature:', error);
-        throw error;
-    }
+    ZoomMtg.init({
+        leaveUrl: 'http://www.zoom.us',
+        isSupportAV: true,
+        success: () => {
+            ZoomMtg.join({
+                meetingNumber,
+                userName,
+                signature,
+                apiKey: API_KEY,
+                passWord: password,
+                success: (res) => {
+                    console.log('Join meeting success');
+                },
+                error: (res) => {
+                    console.error('Error joining meeting:', res);
+                },
+            });
+        },
+        error: (res) => {
+            console.error('Error initializing Zoom SDK:', res);
+        },
+    });
 };

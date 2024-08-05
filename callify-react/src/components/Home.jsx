@@ -16,13 +16,13 @@ export default function Home() {
         setMenuOpen(!menuOpen);
     };
 
-    const createSignature = async function () {
-        const response = await getSignature(defaultEmail);
-        setSignature(response);
-        setCallId(response?.meetingNumber);
-    }
+    // const createSignature = async function () {
+    //     const response = await getSignature(defaultEmail);
+    //     setSignature(response);
+    //     setCallId(response?.meetingNumber);
+    // }
 
-    console.log(signature);
+    // console.log(signature);
 
     return (<div>
         {/* {(isSignedIn && user) ? <div></div> : <SignIn />} */}
@@ -69,7 +69,7 @@ export default function Home() {
                 <div className="w-full h-80 bg-blue-100 rounded-lg mb-6"></div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <button className="bg-red-500 text-white p-6 rounded-lg shadow-lg flex items-center justify-center"
-                        onClick={createSignature}>
+                        onClick={() => {}}>
                         <span className="text-xl font-semibold">New Meeting</span>
                     </button>
                     <div className="bg-blue-500 text-white p-6 rounded-lg shadow-lg flex items-center justify-center">
