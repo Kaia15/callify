@@ -1,0 +1,9 @@
+For this service,
+we need spring web
+mysql driver
+spring data jpa
+lombok
+
+To configure MySQL database:
+- run query:
+create database user_management;
