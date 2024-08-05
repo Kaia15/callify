@@ -26,6 +26,25 @@ This is the main class to bootstrap the Spring Boot application.
 ### Interceptors
 - **RestTemplateHeaderModifierInterceptor.java**: Adds a custom header (`"Foo": "bar"`) to the HTTP response.
 
+### Flow
+1. **Service B Sends Request to RestTemplate:**
+- Service B uses RestTemplate to initiate an HTTP request to Service A.**
+
+2. **Request Intercepted by RestTemplate Interceptors:**
+- Before the request is sent to Service A, it passes through any configured RestTemplate interceptors in Service B. These interceptors can modify the request (e.g., adding headers, logging details, etc.).
+
+3. **Request Sent to Service A:**
+- After passing through the interceptors, the RestTemplate sends the request to Service A.
+
+4. **Service A Processes Request and Sends Response:**
+- Service A processes the request and sends back an HTTP response.
+
+5. **Response Intercepted by RestTemplate Interceptors:**
+- Before the response is returned to the original requester in Service B, it again passes through the RestTemplate interceptors. These interceptors can modify the response (e.g., adding headers, logging details, etc.).
+
+6. **Response Returned to Service B:**
+- Finally, the processed response is returned to the code in Service B that made the original request.
+
 ## How to Run
 
 1. **Build the project:**
