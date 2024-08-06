@@ -1,21 +1,43 @@
-import jwt from 'jwt-simple';
+// zoom-api.js (Frontend Only)
+
 import CryptoJS from 'crypto-js';
 import { ZoomMtg } from '@zoomus/websdk';
 
-// Zoom API credentials
-
-// NEED TO MOVE ALL TO BACKEND_SIDE
+// Zoom API credentials (should ideally be stored securely)
 const API_KEY = 'ShwzewRtT4Rs9OyeViU9w';
 const API_SECRET = 't8N0q74L0B2nXBknDNvR547WoUyTgkia';
 
-// Function to generate JWT token
+// Function to generate JWT token manually
 const generateJwtToken = () => {
+    const header = {
+        alg: 'HS256',
+        typ: 'JWT'
+    };
+
     const payload = {
         iss: API_KEY,
         exp: Math.floor(Date.now() / 1000) + 3600, // Token expires in 1 hour
     };
 
-    return jwt.encode(payload, API_SECRET, 'HS256');
+    const base64UrlEncode = (obj) => {
+        return btoa(JSON.stringify(obj)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    };
+
+    const base64UrlDecode = (str) => {
+        return JSON.parse(atob(str.replace(/-/g, '+').replace(/_/g, '/')));
+    };
+
+    const encode = (obj) => {
+        return base64UrlEncode(obj);
+    };
+
+    const headerStr = encode(header);
+    const payloadStr = encode(payload);
+
+    const signature = CryptoJS.HmacSHA256(`${headerStr}.${payloadStr}`, API_SECRET).toString(CryptoJS.enc.Base64);
+    const signatureStr = base64UrlEncode(signature);
+
+    return `${headerStr}.${payloadStr}.${signatureStr}`;
 };
 
 // Generate a Zoom SDK signature using crypto-js

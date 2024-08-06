@@ -16,7 +16,7 @@
     "@types/node": "^16.18.94",
     "@types/react": "^18.2.74",
     "@types/react-dom": "^18.2.24",
-    "@zoomus/websdk": "^2.18.3",
+    "@zoom/meetingsdk": "^3.8.0",
     "axios": "^1.6.8",
     "firebase": "^10.10.0",
     "fs": "^0.0.1-security",
