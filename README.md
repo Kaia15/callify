@@ -20,7 +20,8 @@
    - **userService**
    - **meetingService**
    - **authService**
-3. Architecture: Microservices OR Monolith? @ThienBui
+2. Architecture: Microservices
+3. HTTP(s) Communication: RestTemplate OR Apache Kafka (if you use Kafka, be EXTREMELY CAREFUL, tech eng will not forgive you if you say sth wrong rather nothing).
 
 ## Database
 1. Schemas:
