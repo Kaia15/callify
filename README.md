@@ -25,8 +25,8 @@
 2. Architecture: Microservices
 3. HTTP(s) Communication: RestTemplate OR Apache Kafka (**if you use Kafka, be EXTREMELY CAREFUL, tech eng will not forgive you if you say sth wrong rather nothing**).
 4.
-![callify-microservices](https://github.com/user-attachments/assets/20f936d7-6c04-4200-b933-97208b769108)
 
+![callify-microservices](https://github.com/user-attachments/assets/4f86433d-34dd-4390-90f2-5a5944e0081a)
 
 ## Database
 1. Schemas:
