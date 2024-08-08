@@ -25,47 +25,8 @@
 2. Architecture: Microservices
 3. HTTP(s) Communication: RestTemplate OR Apache Kafka (**if you use Kafka, be EXTREMELY CAREFUL, tech eng will not forgive you if you say sth wrong rather nothing**).
 4.
-my-monorepo/
-├── user-service/
-│   ├── controllers/
-│   │   ├── UserController.java
-│   │   └── HealthController.java
-│   ├── services/
-│   │   └── UserService.java
-│   ├── repositories/
-│   │   └── UserRepository.java
-│   ├── models/
-│   │   └── User.java
-│   ├── config/
-│   │   └── RestTemplateConfig.java
-│   └── UserServiceApplication.java
-├── auth-service/
-│   ├── controllers/
-│   │   ├── AuthController.java
-│   │   └── HealthController.java
-│   ├── services/
-│   │   └── AuthService.java
-│   ├── repositories/
-│   │   └── AuthRepository.java
-│   ├── models/
-│   │   └── Authentication.java
-│   ├── config/
-│   │   └── RestTemplateConfig.java
-│   └── AuthServiceApplication.java
-├── meeting-service/
-│   ├── controllers/
-│   │   ├── MeetingController.java
-│   │   └── HealthController.java
-│   ├── services/
-│   │   └── MeetingService.java
-│   ├── repositories/
-│   │   └── MeetingRepository.java
-│   ├── models/
-│   │   └── Meeting.java
-│   ├── config/
-│   │   └── RestTemplateConfig.java
-│   └── MeetingServiceApplication.java
-└── pom.xml
+![callify-microservices](https://github.com/user-attachments/assets/20f936d7-6c04-4200-b933-97208b769108)
+
 
 ## Database
 1. Schemas:
