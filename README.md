@@ -44,3 +44,34 @@
    - Access via link: https://start.spring.io/ to download your spring boot application package.
    - Some packages added to download: **PomXML, data-jbc, jpa, SQL (Postgresql, MySQL), rest, web**, etc.
    - After installation, export .zip folder and open in VSCode.
+
+## Folder Structure:
+1. Repository:
+   - Goal: Store all service-based repositories that extend JPA repository which connnect database through Hibernate (ORM)
+
+2. Model:
+   - Goal: Define all service entities (create schema) used in database.
+   - Relationship with Repository: repository has its "default" methods to make queries to declared database in Model.
+
+3. Service:
+   - Goal: Where to implement all Repository interfaces, and after implementation, all the methods are used in Controller.
+
+4. Interface:
+   - Goal: create an interface to "guide" corresponding service on the right track.
+
+## Naming Convention:
+1. Variable Name in a class: lowercase first letter of first word, uppercase all first letters of the following words.
+
+## Annotations:
+1. Model / Entity:
+   - Recommend using @Column for each field of each model.
+   - For unique fields like email, add props inside @Column
+   - Use of Enum type to define subscription types applying on each User.
+
+## Schema Design:
+1. Follow strictly Zoom Developer APIs Doc: https://developers.zoom.us/docs/api/
+
+## Querying:
+1. Apply derived queries: 
+   - Query derivation allows the developer to define method names in the repository interface that follow a naming convention, and the framework generates an appropriate query based on that method name. (defined in Repository Interface -- Repository Folder)
+

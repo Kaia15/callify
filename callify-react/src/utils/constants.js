@@ -1,0 +1,10 @@
+export const authEndpoint = 'http://localhost:4000/'
+export const sdkKey = 'ShwzewRtT4Rs9OyeViU9w'
+export const meetingNumber = '77771903089'
+export const passWord = 'r9u9Ge'
+export const role = 1
+export const userName = 'React'
+export const userEmail = 'baotranongtran@gmail.com'
+export const registrantToken = ''
+export const zakToken = ''
+export const leaveUrl = 'http://localhost:3000'
