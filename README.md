@@ -29,9 +29,7 @@
 ![callify-microservices](https://github.com/user-attachments/assets/4f86433d-34dd-4390-90f2-5a5944e0081a)
 
 ## Database
-1. Schemas:
-   - User: userID, email, firstName, lastName, password
-   - Meeting: meetingID, duration, startTime, endTime, passcode, members, url
+1. Schemas (updated later on)
 
 2. Relations:
    - User / Meetings: many to many, (one Meeting can have many User(s), one User can join many Meeting(s))
