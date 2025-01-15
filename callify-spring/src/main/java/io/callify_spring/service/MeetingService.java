@@ -23,7 +23,7 @@ public class MeetingService implements IMeetingService {
     };
 
     // user can be both registrant or attendee
-    public List<Meeting> gettAllMeetingsByUser(Long userId) {
+    public List<Meeting> getAllMeetingsByUser(Long userId) {
         return this.meetingRepository.getAllMeetingsByUser(userId);
     }; 
     

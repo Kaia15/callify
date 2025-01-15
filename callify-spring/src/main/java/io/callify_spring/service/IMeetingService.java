@@ -8,7 +8,7 @@ import io.callify_spring.model.User;
 
 public interface IMeetingService {
     public List<Meeting> getAllMeetings();
-    public List<Meeting> gettAllMeetingsByUser(Long userId); // user can be both registrant or attendee
+    public List<Meeting> getAllMeetingsByUser(Long userId); // user can be both registrant or attendee
     public Meeting getMeetingById(Long meetingId);
     public Meeting createMeetingByUser(MeetingDTO meetingDto); // in this case, userId is equal to registrantId
     public Meeting updateMeeting(MeetingDTO meetingDTO);
