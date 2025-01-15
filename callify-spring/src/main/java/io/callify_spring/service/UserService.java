@@ -40,7 +40,7 @@ public class UserService implements IUserService {
         return this.userRepository.findByEmail(email);
     };
 
-    public User updateUserById(UserDTO userDto) {
+    public User updateUser(UserDTO userDto) {
         User foundUser = this.getUserById(userDto.getId());
         foundUser.modifyUserFromDTO(userDto);
         this.userRepository.save(foundUser);
