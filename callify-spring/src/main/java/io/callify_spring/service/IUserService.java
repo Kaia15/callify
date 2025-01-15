@@ -8,7 +8,7 @@ public interface IUserService {
     public List<User> getAllUsers();
     public User getUserById(Long id);
     public User getUserByEmail(String email);
-    public User updateUserById(UserDTO userDto);
+    public User updateUser(UserDTO userDto);
     public void deleteUserById(Long id);
     public User createUser(String email, String firstName, String lastName, String password);
     public List<User> getUsersByPage(int offset, int pageNum);

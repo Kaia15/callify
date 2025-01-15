@@ -1,6 +1,8 @@
 package io.callify_spring.controller;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -38,9 +40,20 @@ public class UserController {
         return this.userService.createUser(userDto.getEmail(),userDto.getFirstName(),userDto.getLastName(),userDto.getPassword());
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/users/{userId}")
     public User getUserById(@PathVariable Long userId) {
         return this.userService.getUserById(userId);
     }
+
+    @PatchMapping("/users")
+    public User getUserById(@Valid @RequestBody UserDTO userDto) {
+        return this.userService.updateUser(userDto);
+    }
+
+    @DeleteMapping("/users/{userId}")
+    public void deleteUserById(@PathVariable Long userId) {
+        this.userService.deleteUserById(userId);;
+    }
+
 }
 
