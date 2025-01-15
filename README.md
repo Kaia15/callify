@@ -51,7 +51,7 @@
 
 2. Model:
    - Goal: Define all service entities (create schema) used in database.
-   - Relationship with Repository: repository has its "default" methods to make queries to declared database in Model.
+   - Relationship with Repository: repository has its "default" methods to query declared database in Model.
 
 3. Service:
    - Goal: Where to implement all Repository interfaces, and after implementation, all the methods are used in Controller.
@@ -60,12 +60,12 @@
    - Goal: create an interface to "guide" corresponding service on the right track.
 
 ## Naming Convention:
-1. Variable Name in a class: lowercase first letter of first word, uppercase all first letters of the following words.
+1. Variable Name in a class: lowercase first letter of the first word, uppercase all first letters of the following words.
 
 ## Annotations:
 1. Model / Entity:
-   - Recommend using @Column for each field of each model.
-   - For unique fields like email, add props inside @Column
+   - Recommend using `@Column` for each field of each model.
+   - For unique fields like email, add props inside `@Column`
    - Use of Enum type to define subscription types applying on each User.
 
 ## Schema Design:
