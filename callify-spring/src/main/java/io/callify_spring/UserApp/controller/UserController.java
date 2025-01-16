@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/users")
 public class UserController {
     private UserService userService;
 
@@ -28,7 +28,7 @@ public class UserController {
         this.userService = service;
     }
 
-    @GetMapping("/users") // get all users with & without pagination
+    @GetMapping("/") // get all users with & without pagination
     public List<User> getAllUsers(
         @RequestParam(required = false) Integer offset,
         @RequestParam(required = false) Integer pageNum) {
@@ -38,22 +38,22 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @PostMapping("/users")
+    @PostMapping("/")
     public User createUser(@Valid @RequestBody UserDTO userDto) {
         return this.userService.createUser(userDto.getEmail(),userDto.getFirstName(),userDto.getLastName(),userDto.getPassword());
     }
 
-    @GetMapping("/users/{userId}")
+    @GetMapping("/{userId}")
     public User getUserById(@PathVariable Long userId) {
         return this.userService.getUserById(userId);
     }
 
-    @PatchMapping("/users")
+    @PatchMapping("/")
     public User getUserById(@Valid @RequestBody UserDTO userDto) {
         return this.userService.updateUser(userDto);
     }
 
-    @DeleteMapping("/users/{userId}")
+    @DeleteMapping("/{userId}")
     public void deleteUserById(@PathVariable Long userId) {
         this.userService.deleteUserById(userId);;
     }
