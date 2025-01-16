@@ -23,7 +23,7 @@ public class MeetingService implements IMeetingService {
     };
 
     // user can be both registrant or attendee
-    public List<Meeting> gettAllMeetingsByUser(Long userId) {
+    public List<Meeting> getAllMeetingsByUser(Long userId) {
         return this.meetingRepository.getAllMeetingsByUser(userId);
     }; 
     
@@ -39,8 +39,17 @@ public class MeetingService implements IMeetingService {
 
     // in this case, userId is equal to registrantId
     public Meeting createMeetingByUser(MeetingDTO meetingDto) {
+        if (meetingDto.getRegistrantId() == null || meetingDto.getTopic() == null) {
+            throw new IllegalArgumentException("Registrant ID and Topic are required.");
+        }
+        
         Meeting newMeeting = new Meeting(meetingDto.getRegistrantId(), meetingDto.getTopic(), meetingDto.getDuration());
         RecurrenceDTO recurrenceFromDto = meetingDto.getRecurrence();
+        
+        if (recurrenceFromDto == null) {
+            throw new IllegalArgumentException("Recurrence details are required.");
+        }
+        
         RecurrenceType RType = recurrenceFromDto.getType();
         LocalDateTime STime = recurrenceFromDto.getStartDateTime();
         LocalDateTime now = LocalDateTime.now();
