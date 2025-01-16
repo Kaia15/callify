@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import io.callify_spring.MeetingApp.dto.MeetingDTO.RecurrenceDTO;
-import io.callify_spring.UserApp.model.User;
 import jakarta.persistence.*;
 
 // for now, one meeting only maps with one registrant
@@ -49,7 +48,8 @@ public class Meeting {
         joinColumns = @JoinColumn(name = "meeting_id"), 
         inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<User> attendees;
+    private List<Long> attendeeIds; // Store user IDs instead of User entities
+
 
     // Getters and setters
 
@@ -59,8 +59,8 @@ public class Meeting {
         this.duration = duration;
     }
 
-    public List<User> getAttendees() {
-        return this.attendees;
+    public List<Long> getAttendees() {
+        return this.attendeeIds;
     }
 
     public void setRecurrence(Recurrence recurrence) {

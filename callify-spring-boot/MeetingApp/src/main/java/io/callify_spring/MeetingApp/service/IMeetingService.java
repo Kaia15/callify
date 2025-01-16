@@ -4,7 +4,6 @@ import java.util.*;
 
 import io.callify_spring.MeetingApp.dto.MeetingDTO;
 import io.callify_spring.MeetingApp.model.Meeting;
-import io.callify_spring.UserApp.model.User;
 
 public interface IMeetingService {
     public List<Meeting> getAllMeetings();
@@ -13,7 +12,7 @@ public interface IMeetingService {
     public Meeting createMeetingByUser(MeetingDTO meetingDto); // in this case, userId is equal to registrantId
     public Meeting updateMeeting(MeetingDTO meetingDTO);
     public void deleteMeetingByUser(Long userId);
-    public List<User> getAllMeetingAttendeesById(Long meetingId); // might include registrant id and all remaining attendees
+    public List<Long> getAllMeetingAttendeesById(Long meetingId); // might include registrant id and all remaining attendees
     public void addNewAttendees(Long meetingId, Long userId);
     // public void deleteMeetingRegistrant(Long registrantId);
 }

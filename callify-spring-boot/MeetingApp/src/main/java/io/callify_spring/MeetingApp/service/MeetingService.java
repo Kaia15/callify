@@ -8,7 +8,6 @@ import io.callify_spring.MeetingApp.model.Meeting;
 import io.callify_spring.MeetingApp.model.MeetingType;
 import io.callify_spring.MeetingApp.model.RecurrenceType;
 import io.callify_spring.MeetingApp.repository.MeetingRepository;
-import io.callify_spring.UserApp.model.User;
 
 import java.time.LocalDateTime;
 
@@ -33,7 +32,7 @@ public class MeetingService implements IMeetingService {
     };
 
     // might include registrant id and all remaining attendees' ids
-    public List<User> getAllMeetingAttendeesById(Long meetingId) {
+    public List<Long> getAllMeetingAttendeesById(Long meetingId) {
         Meeting foundMeeting = this.getMeetingById(meetingId);
         return foundMeeting.getAttendees();
     }; 
