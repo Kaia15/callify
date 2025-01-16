@@ -1,6 +1,6 @@
-package io.callify_spring.model;
+package io.callify_spring.UserApp.model;
 
-import io.callify_spring.dto.UserDTO;
+import io.callify_spring.UserApp.dto.UserDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

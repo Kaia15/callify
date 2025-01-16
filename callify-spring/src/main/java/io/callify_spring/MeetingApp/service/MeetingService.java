@@ -1,14 +1,15 @@
-package io.callify_spring.service;
-
-import io.callify_spring.model.Meeting;
-import io.callify_spring.model.MeetingType;
-import io.callify_spring.model.RecurrenceType;
-import io.callify_spring.model.User;
-import io.callify_spring.repository.MeetingRepository;
+package io.callify_spring.MeetingApp.service;
 
 import java.util.*;
-import io.callify_spring.dto.MeetingDTO;
-import io.callify_spring.dto.MeetingDTO.RecurrenceDTO;
+
+import io.callify_spring.MeetingApp.dto.MeetingDTO;
+import io.callify_spring.MeetingApp.dto.MeetingDTO.RecurrenceDTO;
+import io.callify_spring.MeetingApp.model.Meeting;
+import io.callify_spring.MeetingApp.model.MeetingType;
+import io.callify_spring.MeetingApp.model.RecurrenceType;
+import io.callify_spring.MeetingApp.repository.MeetingRepository;
+import io.callify_spring.UserApp.model.User;
+
 import java.time.LocalDateTime;
 
 public class MeetingService implements IMeetingService {
@@ -49,7 +50,7 @@ public class MeetingService implements IMeetingService {
         if (recurrenceFromDto == null) {
             throw new IllegalArgumentException("Recurrence details are required.");
         }
-        
+
         RecurrenceType RType = recurrenceFromDto.getType();
         LocalDateTime STime = recurrenceFromDto.getStartDateTime();
         LocalDateTime now = LocalDateTime.now();

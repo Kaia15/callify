@@ -1,9 +1,10 @@
-package io.callify_spring.model;
+package io.callify_spring.MeetingApp.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import io.callify_spring.dto.MeetingDTO.RecurrenceDTO;
+import io.callify_spring.MeetingApp.dto.MeetingDTO.RecurrenceDTO;
+import io.callify_spring.UserApp.model.User;
 import jakarta.persistence.*;
 
 // for now, one meeting only maps with one registrant

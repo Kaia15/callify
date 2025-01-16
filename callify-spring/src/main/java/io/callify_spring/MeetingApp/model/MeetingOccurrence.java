@@ -1,4 +1,4 @@
-package io.callify_spring.model;
+package io.callify_spring.MeetingApp.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;

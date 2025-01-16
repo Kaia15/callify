@@ -1,9 +1,10 @@
-package io.callify_spring.repository;
+package io.callify_spring.MeetingApp.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import io.callify_spring.model.Meeting;
+import io.callify_spring.MeetingApp.model.Meeting;
+
 import java.util.*;
 
 public interface MeetingRepository extends JpaRepository<Meeting,Long> {

@@ -1,4 +1,4 @@
-package io.callify_spring.model;
+package io.callify_spring.MeetingApp.model;
 
 public enum MeetingType {
     INSTANT(1), SCHEDULED(2), RECURRING_FIXED_TIME(4), RECURRING_NO_FIXED_TIME(3), 

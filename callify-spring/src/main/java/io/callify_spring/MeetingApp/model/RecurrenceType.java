@@ -1,4 +1,4 @@
-package io.callify_spring.model;
+package io.callify_spring.MeetingApp.model;
 
 public enum RecurrenceType {
     NONE, DAILY, WEEKLY, MONTHLY

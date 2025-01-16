@@ -1,6 +1,6 @@
-package io.callify_spring.dto;
+package io.callify_spring.UserApp.dto;
 
-import io.callify_spring.model.UserType;
+import io.callify_spring.UserApp.model.UserType;
 
 public class UserDTO {
     private String firstName;

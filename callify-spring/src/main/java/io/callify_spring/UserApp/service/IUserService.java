@@ -1,8 +1,9 @@
-package io.callify_spring.service;
+package io.callify_spring.UserApp.service;
 
-import io.callify_spring.dto.UserDTO;
-import io.callify_spring.model.User;
 import java.util.List;
+
+import io.callify_spring.UserApp.dto.UserDTO;
+import io.callify_spring.UserApp.model.User;
 
 public interface IUserService {
     public List<User> getAllUsers();

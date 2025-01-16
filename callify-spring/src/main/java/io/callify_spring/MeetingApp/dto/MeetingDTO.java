@@ -1,10 +1,11 @@
-package io.callify_spring.dto;
+package io.callify_spring.MeetingApp.dto;
 
-import io.callify_spring.model.Meeting;
-import io.callify_spring.model.MeetingType;
 import java.util.*;
+
+import io.callify_spring.MeetingApp.model.MeetingType;
+import io.callify_spring.MeetingApp.model.RecurrenceType;
+
 import java.time.LocalDateTime;
-import io.callify_spring.model.RecurrenceType;
 
 public class MeetingDTO {
 

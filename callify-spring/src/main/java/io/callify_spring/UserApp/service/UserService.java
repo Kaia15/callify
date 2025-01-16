@@ -1,14 +1,15 @@
-package io.callify_spring.service;
-
-import io.callify_spring.model.User;
-import io.callify_spring.model.UserType;
-import io.callify_spring.repository.UserRepository;
-import io.callify_spring.dto.UserDTO;
+package io.callify_spring.UserApp.service;
 
 import java.util.*;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import io.callify_spring.UserApp.dto.UserDTO;
+import io.callify_spring.UserApp.model.User;
+import io.callify_spring.UserApp.model.UserType;
+import io.callify_spring.UserApp.repository.UserRepository;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

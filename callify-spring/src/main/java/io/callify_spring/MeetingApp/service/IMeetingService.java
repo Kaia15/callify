@@ -1,10 +1,10 @@
-package io.callify_spring.service;
+package io.callify_spring.MeetingApp.service;
 
 import java.util.*;
 
-import io.callify_spring.dto.MeetingDTO;
-import io.callify_spring.model.Meeting;
-import io.callify_spring.model.User;
+import io.callify_spring.MeetingApp.dto.MeetingDTO;
+import io.callify_spring.MeetingApp.model.Meeting;
+import io.callify_spring.UserApp.model.User;
 
 public interface IMeetingService {
     public List<Meeting> getAllMeetings();
