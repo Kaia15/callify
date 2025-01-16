@@ -75,8 +75,17 @@ public class MeetingService implements IMeetingService {
     // fix the meeting time, topic, etc
     public Meeting updateMeeting(MeetingDTO meetingDto) {
         Meeting foundMeeting = this.getMeetingById(meetingDto.getId());
-        // TO-DO: set topic and meeting time (3 cases)
+
+        RecurrenceDTO recurrenceFromDto = meetingDto.getRecurrence();
+
+        if (recurrenceFromDto == null) {
+            throw new IllegalArgumentException("Recurrence details are required.");
+        }
+        
+        foundMeeting.updateMeetingFromDTO(meetingDto, recurrenceFromDto);
+
         return foundMeeting;
+        
     };
 
     public void deleteMeetingByUser(Long userId) {

@@ -3,6 +3,7 @@ package io.callify_spring.MeetingApp.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import io.callify_spring.MeetingApp.dto.MeetingDTO;
 import io.callify_spring.MeetingApp.dto.MeetingDTO.RecurrenceDTO;
 import jakarta.persistence.*;
 
@@ -71,6 +72,19 @@ public class Meeting {
         this.meetingType = meetingType;
     }
 
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
+    public Recurrence getRecurrence() {
+        return this.recurrence;
+    }
+
+
     public void setMeetingFromDTO(RecurrenceDTO recurrenceFromDto, LocalDateTime STime, RecurrenceType RType) {
         if (recurrenceFromDto != null) {
             Meeting.Recurrence recurrence = new Meeting.Recurrence();
@@ -87,6 +101,29 @@ public class Meeting {
             this.setRecurrence(recurrence);
         }
     }
+
+    public void updateMeetingFromDTO(MeetingDTO meetingDTO, RecurrenceDTO recurrenceDTO) {
+        if (meetingDTO != null) {
+            // Update the meeting fields from DTO
+            if (meetingDTO.getTopic() != null) {
+                this.setTopic(meetingDTO.getTopic());
+            }
+            
+            if (meetingDTO.getDuration() > 0) {
+                this.setDuration(meetingDTO.getDuration());
+            }
+
+            if (meetingDTO.getMeetingType() != null) {
+                this.setMeetingType(meetingDTO.getMeetingType());
+            }
+        }
+
+        // Update recurrence if available
+        if (recurrenceDTO != null) {
+            this.setMeetingFromDTO(recurrenceDTO, this.getRecurrence().getStartDateTime(), this.getRecurrence().getType());
+        }
+    }
+
 
     public static class Recurrence {
 

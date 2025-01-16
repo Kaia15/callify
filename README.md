@@ -73,3 +73,17 @@
 1. Apply derived queries: 
    - Query derivation allows the developer to define method names in the repository interface that follow a naming convention, and the framework generates an appropriate query based on that method name. (defined in Repository Interface -- Repository Folder)
 
+## Backend API(s):
+1. Meeting Service:
+   - **POST**: `http://localhost:8081/api/v1/meetings/`
+   - **GET**: `http://localhost:8081/api/v1/meetings/`
+   - **GET**: `http://localhost:8081/api/v1/meetings/{meetingId}`
+   - **GET**: `http://localhost:8081/api/v1/meetings/{meetingId}/attendees` (Retrieve all attendeed ids who have attended/registered for the meeting)
+   - **GET**: `http://localhost:8081/api/v1/meetings/{meetingId}/attendees/{attendeeId}` (Retrieve details on a specific user who has registered/attended for the meeting)
+
+2. User Service:
+   - **POST**: `http://localhost:8080/api/v1/users/`
+   - **GET**: `http://localhost:8080/api/v1/users?offset={offset}&pagenum={pagenum}`
+   - **GET**: `http://localhost:8080/api/v1/users/`
+   - **POST**: `http://localhost:8080/api/v1/users/{userId}/meetings` (Create a meeting for a user)
+   - **GET**: `http://localhost:8080/api/v1/users/{userId}/meetings` (Retrieve all user's meetings)
