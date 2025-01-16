@@ -1,13 +1,13 @@
-package io.callify_spring;
+package io.callify_spring.UserApp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CallifySpringApplication {
+public class UserApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CallifySpringApplication.class, args);
+		SpringApplication.run(UserApplication.class, args);
 	}
 
 }

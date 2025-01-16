@@ -8,10 +8,10 @@
 		<version>3.3.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>io</groupId>
-	<artifactId>callify-spring</artifactId>
+	<groupId>io.callify_spring</groupId>
+	<artifactId>MeetingApp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>callify-spring</name>
+	<name>MeetingApp</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
