@@ -63,7 +63,6 @@
 ```
 callify-spring-boot/
 ├── MeetingApp/                     # Handles all meeting-related operations
-│   ├── .mvn/                       # Maven wrapper directory
 │   ├── src/
 │   │   ├── main/
 │   │   │   ├── java/io/callify_spring/MeetingApp/
@@ -83,7 +82,6 @@ callify-spring-boot/
 │   ├── pom.xml                     # Maven project descriptor
 
 ├── UserApp/                        # Handles all user-related operations
-│   ├── .mvn/                       # Maven wrapper directory
 │   ├── src/
 │   │   ├── main/
 │   │   │   ├── java/io/callify_spring/UserApp/
