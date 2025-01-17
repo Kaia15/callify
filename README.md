@@ -19,9 +19,9 @@
      
 ## Backend
 1. Services:
-   - **userService**
-   - **meetingService**
-   - **authService**
+   - **UserService**
+   - **MeetingService**
+   - **AuthService**
 2. Architecture: Microservices
 3. HTTP(s) Communication: 
    - RestTemplate (Blocking I/O, Synchronous HTTP Requests) 
