@@ -19,15 +19,15 @@
      
 ## Backend
 1. Services:
-   - **userService**
-   - **meetingService**
-   - **authService**
+   - **UserService**
+   - **MeetingService**
+   - **AuthService**
 2. Architecture: Microservices
 3. HTTP(s) Communication: 
    - RestTemplate (Blocking I/O, Synchronous HTTP Requests) 
    - WebClient (Non-Blocking I/O, Asynchronous HTTP Requests)
    - FeignClient
-   - Apache Kafka (**if you use Kafka, be EXTREMELY CAREFUL, tech eng will not forgive you if you say sth wrong rather nothing**).
+   - Apache Kafka 
 
 ## Database
 1. Schemas (updated later on)
@@ -57,6 +57,48 @@
 
 4. Interface:
    - Goal: create an interface to "guide" corresponding service on the right track.
+  
+## **Project Root**
+
+```
+callify-spring-boot/
+├── MeetingApp/                     # Handles all meeting-related operations
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/io/callify_spring/MeetingApp/
+│   │   │   │   ├── config/         # Configuration classes to store own RestTemplate
+│   │   │   │   ├── controller/     # REST API controllers
+│   │   │   │   ├── dto/            # Data Transfer Objects for API communication
+│   │   │   │   ├── model/          # Domain and entity models
+│   │   │   │   ├── repository/     # Interfaces for database access
+│   │   │   │   ├── service/        # Business logic and services
+│   │   │   │   │   ├── IMeetingService.java
+│   │   │   │   │   ├── MeetingService.java
+│   │   │   │   ├── MeetingApplication.java  # Entry point of the MeetingApp
+│   │   ├── resources/              # Resources such as application.properties
+│   │   ├── test/                   # Unit and integration tests
+.
+.
+│   ├── pom.xml                     # Maven project descriptor
+
+├── UserApp/                        # Handles all user-related operations
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/io/callify_spring/UserApp/
+│   │   │   │   ├── config/         # Configuration classes to store own RestTemplate 
+│   │   │   │   ├── controller/     # REST API controllers
+│   │   │   │   ├── dto/            # Data Transfer Objects for API communication
+│   │   │   │   ├── model/          # Domain and entity models
+│   │   │   │   ├── repository/     # Interfaces for database access
+│   │   │   │   ├── service/        # Business logic and services
+│   │   │   │   ├── UserApplication.java  # Entry point of the UserApp
+│   │   ├── resources/              # Resources such as application.properties
+│   │   ├── test/                   # Unit and integration tests
+.
+.
+│   ├── pom.xml                     # Maven project descriptor
+
+```
 
 ## Naming Convention:
 1. Variable Name in a class: lowercase first letter of the first word, uppercase all first letters of the following words.
@@ -76,15 +118,15 @@
 
 ## Backend API(s):
 1. Meeting Service: (PORT=8081)
-   - **POST**: `http://localhost:8081/api/v1/meetings/`
-   - **GET**: `http://localhost:8081/api/v1/meetings/`
-   - **GET**: `http://localhost:8081/api/v1/meetings/{meetingId}`
-   - **GET**: `http://localhost:8081/api/v1/meetings/{meetingId}/attendees` (Retrieve all attendeed ids who have attended/registered for the meeting)
+   - ✅ **POST**: `http://localhost:8081/api/v1/meetings/`
+   - ✅ **GET**: `http://localhost:8081/api/v1/meetings/`
+   - ✅ **GET**: `http://localhost:8081/api/v1/meetings/{meetingId}`
+   - ✅ **GET**: `http://localhost:8081/api/v1/meetings/{meetingId}/attendees` (Retrieve all attendeed ids who have attended/registered for the meeting)
    - **GET**: `http://localhost:8081/api/v1/meetings/{meetingId}/attendees/{attendeeId}` (Retrieve details on a specific user who has registered/attended for the meeting)
 
 2. User Service: (PORT=8080)
-   - **POST**: `http://localhost:8080/api/v1/users/`
-   - **GET**: `http://localhost:8080/api/v1/users?offset={offset}&pagenum={pagenum}`
-   - **GET**: `http://localhost:8080/api/v1/users/`
-   - **POST**: `http://localhost:8080/api/v1/users/{userId}/meetings` (Create a meeting for a user)
-   - **GET**: `http://localhost:8080/api/v1/users/{userId}/meetings` (Retrieve all user's meetings)
+   - ✅ **POST**: `http://localhost:8080/api/v1/users/`
+   - ✅ **GET**: `http://localhost:8080/api/v1/users?offset={offset}&pagenum={pagenum}`
+   - ✅ **GET**: `http://localhost:8080/api/v1/users/`
+   - ✅ **POST**: `http://localhost:8080/api/v1/users/{userId}/meetings` (Create a meeting for a user)
+   - ✅ **GET**: `http://localhost:8080/api/v1/users/{userId}/meetings` (Retrieve all user's meetings)
