@@ -121,7 +121,7 @@ callify-spring-boot/
    - ✅ **POST**: `http://localhost:8081/api/v1/meetings/`
    - ✅ **GET**: `http://localhost:8081/api/v1/meetings/`
    - ✅ **GET**: `http://localhost:8081/api/v1/meetings/{meetingId}`
-   - **GET**: `http://localhost:8081/api/v1/meetings/{meetingId}/attendees` (Retrieve all attendeed ids who have attended/registered for the meeting)
+   - ✅ **GET**: `http://localhost:8081/api/v1/meetings/{meetingId}/attendees` (Retrieve all attendeed ids who have attended/registered for the meeting)
    - **GET**: `http://localhost:8081/api/v1/meetings/{meetingId}/attendees/{attendeeId}` (Retrieve details on a specific user who has registered/attended for the meeting)
 
 2. User Service: (PORT=8080)
