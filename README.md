@@ -59,7 +59,10 @@
    - Goal: create an interface to "guide" corresponding service on the right track.
   
 ## **Project Root**
+
+```
 callify-spring-boot/ ├── MeetingApp/ │ ├── .mvn/ │ ├── src/ │ │ ├── main/ │ │ │ ├── java/io/callify_spring/MeetingApp/ │ │ │ │ ├── config/ │ │ │ │ ├── controller/ │ │ │ │ ├── dto/ │ │ │ │ ├── model/ │ │ │ │ ├── repository/ │ │ │ │ ├── service/ │ │ │ │ │ ├── IMeetingService.java │ │ │ │ │ ├── MeetingService.java │ │ │ │ ├── MeetingApplication.java │ │ ├── resources/ │ │ ├── test/ │ ├── target/ │ ├── .gitattributes │ ├── .gitignore │ ├── HELP.md │ ├── mvnw │ ├── mvnw.cmd │ ├── pom.xml │ ├── UserApp/ │ ├── .mvn/ │ ├── src/ │ │ ├── main/ │ │ │ ├── java/io/callify_spring/UserApp/ │ │ │ │ ├── config/ │ │ │ │ ├── controller/ │ │ │ │ ├── dto/ │ │ │ │ ├── model/ │ │ │ │ ├── repository/ │ │ │ │ ├── service/ │ │ │ │ ├── UserApplication.java │ │ ├── resources/ │ │ ├── test/ │ ├── target/ │ ├── .gitattributes │ ├── .gitignore │ ├── HELP.md │ ├── mvnw │ ├── mvnw.cmd │ ├── pom.xml
+```
 
 ## Naming Convention:
 1. Variable Name in a class: lowercase first letter of the first word, uppercase all first letters of the following words.
