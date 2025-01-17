@@ -66,7 +66,7 @@ callify-spring-boot/
 │   ├── src/
 │   │   ├── main/
 │   │   │   ├── java/io/callify_spring/MeetingApp/
-│   │   │   │   ├── config/         # Configuration classes
+│   │   │   │   ├── config/         # Configuration classes to store own RestTemplate
 │   │   │   │   ├── controller/     # REST API controllers
 │   │   │   │   ├── dto/            # Data Transfer Objects for API communication
 │   │   │   │   ├── model/          # Domain and entity models
@@ -85,7 +85,7 @@ callify-spring-boot/
 │   ├── src/
 │   │   ├── main/
 │   │   │   ├── java/io/callify_spring/UserApp/
-│   │   │   │   ├── config/         # Configuration classes
+│   │   │   │   ├── config/         # Configuration classes to store own RestTemplate 
 │   │   │   │   ├── controller/     # REST API controllers
 │   │   │   │   ├── dto/            # Data Transfer Objects for API communication
 │   │   │   │   ├── model/          # Domain and entity models
