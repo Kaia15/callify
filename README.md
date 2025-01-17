@@ -61,7 +61,45 @@
 ## **Project Root**
 
 ```
-callify-spring-boot/ ├── MeetingApp/ │ ├── .mvn/ │ ├── src/ │ │ ├── main/ │ │ │ ├── java/io/callify_spring/MeetingApp/ │ │ │ │ ├── config/ │ │ │ │ ├── controller/ │ │ │ │ ├── dto/ │ │ │ │ ├── model/ │ │ │ │ ├── repository/ │ │ │ │ ├── service/ │ │ │ │ │ ├── IMeetingService.java │ │ │ │ │ ├── MeetingService.java │ │ │ │ ├── MeetingApplication.java │ │ ├── resources/ │ │ ├── test/ │ ├── target/ │ ├── .gitattributes │ ├── .gitignore │ ├── HELP.md │ ├── mvnw │ ├── mvnw.cmd │ ├── pom.xml │ ├── UserApp/ │ ├── .mvn/ │ ├── src/ │ │ ├── main/ │ │ │ ├── java/io/callify_spring/UserApp/ │ │ │ │ ├── config/ │ │ │ │ ├── controller/ │ │ │ │ ├── dto/ │ │ │ │ ├── model/ │ │ │ │ ├── repository/ │ │ │ │ ├── service/ │ │ │ │ ├── UserApplication.java │ │ ├── resources/ │ │ ├── test/ │ ├── target/ │ ├── .gitattributes │ ├── .gitignore │ ├── HELP.md │ ├── mvnw │ ├── mvnw.cmd │ ├── pom.xml
+callify-spring-boot/
+├── MeetingApp/                     # Handles all meeting-related operations
+│   ├── .mvn/                       # Maven wrapper directory
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/io/callify_spring/MeetingApp/
+│   │   │   │   ├── config/         # Configuration classes
+│   │   │   │   ├── controller/     # REST API controllers
+│   │   │   │   ├── dto/            # Data Transfer Objects for API communication
+│   │   │   │   ├── model/          # Domain and entity models
+│   │   │   │   ├── repository/     # Interfaces for database access
+│   │   │   │   ├── service/        # Business logic and services
+│   │   │   │   │   ├── IMeetingService.java
+│   │   │   │   │   ├── MeetingService.java
+│   │   │   │   ├── MeetingApplication.java  # Entry point of the MeetingApp
+│   │   ├── resources/              # Resources such as application.properties
+│   │   ├── test/                   # Unit and integration tests
+.
+.
+│   ├── pom.xml                     # Maven project descriptor
+
+├── UserApp/                        # Handles all user-related operations
+│   ├── .mvn/                       # Maven wrapper directory
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/io/callify_spring/UserApp/
+│   │   │   │   ├── config/         # Configuration classes
+│   │   │   │   ├── controller/     # REST API controllers
+│   │   │   │   ├── dto/            # Data Transfer Objects for API communication
+│   │   │   │   ├── model/          # Domain and entity models
+│   │   │   │   ├── repository/     # Interfaces for database access
+│   │   │   │   ├── service/        # Business logic and services
+│   │   │   │   ├── UserApplication.java  # Entry point of the UserApp
+│   │   ├── resources/              # Resources such as application.properties
+│   │   ├── test/                   # Unit and integration tests
+.
+.
+│   ├── pom.xml                     # Maven project descriptor
+
 ```
 
 ## Naming Convention:
