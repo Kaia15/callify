@@ -34,8 +34,14 @@ public class MeetingController {
     }
 
     @GetMapping
-    public List<Meeting> getAllMeetings() {
-        return this.meetingService.getAllMeetings();
+    public List<?> getMeetings(@RequestParam(required = false) Long userId) {
+        if (userId != null) {
+            // If userId is provided, fetch meetings for that user
+            return this.meetingService.getAllMeetingsByUser(userId);
+        } else {
+            // Otherwise, fetch all meetings
+            return this.meetingService.getAllMeetings();
+        }
     }
 
     @GetMapping("/{meetingId}")
@@ -59,13 +65,6 @@ public class MeetingController {
     @GetMapping("/{meetingId}/attendees")
     public List<Long> getAllMeetingAttendeesById(@PathVariable Long meetingId) {
         return this.meetingService.getAllMeetingAttendeesById(meetingId);
-    }
-
-    @GetMapping("/{userId}")
-    public List<Meeting> getMeetingsByUser(@PathVariable Long userId) {
-        // Call the service layer to fetch the meetings based on the userId
-        // Called from "GET: /{userId}/meetings"
-        return this.meetingService.getAllMeetingsByUser(userId);
     }
 
     @GetMapping("/{meetingId}/attendees/{attendeeId}")

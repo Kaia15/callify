@@ -1,5 +1,6 @@
 package io.callify_spring.UserApp.controller;
 
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import org.springframework.http.MediaType; // For setting content type (e.g., application/json)
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -110,7 +112,6 @@ public class UserController {
     public Long createMeetingByUser(@PathVariable Long userId) {
         // Hard-coded request body with userId dynamically replaced
         String requestBody = "{\n" +
-            "  \"id\": null,\n" +
             "  \"joinUrl\": \"https://meeting.com/join/12345\",\n" +
             "  \"registrantId\": " + userId + ",\n" +
             "  \"createdAt\": \"" + LocalDateTime.now() + "\",\n" +
@@ -147,23 +148,21 @@ public class UserController {
         return response.getBody();
     }
 
+    @GetMapping("/{userId}/meetings")
+    public List<Long> getMeetingsByUser(@PathVariable Long userId) {
+        String url = "http://localhost:8081/api/v1/meetings?userId=" + userId;
 
+        // Use exchange with a ParameterizedTypeReference to specify the type
+        ResponseEntity<List<Long>> response = restTemplate.exchange(
+            url,
+            HttpMethod.GET,
+            null,
+            new ParameterizedTypeReference<List<Long>>() {}
+        );
 
-    // @GetMapping("/{userId}/meetings")
-    // public List<Long> getMeetingsByUser(@PathVariable Long userId) {
-    //     // TO-DO: make request to meetingService
-    //     // list all meeting ids
-    //     String url = "http://localhost:8080/api/v1/meetings?userId=" + userId;
+        // Return the List<Long> directly from the response body
+        return response.getBody();
+    }
 
-    //     // Using getForEntity with List.class (this works for simple types)
-    //     // FIX: mismatch return type, correct type is Meeting
-    //     ResponseEntity<List> response = this.restTemplate.getForEntity(url, List.class);
-
-    //     // Cast the response body to List<Long>
-    //     List<Long> responseList = (List<Long>) response.getBody();
-
-    //     // Return the List<Long>
-    //     return responseList;
-    // }
 }
 
