@@ -9,6 +9,7 @@ public class UserDTO {
     private UserType planUnitedType;
     private Long id;
     private String email;
+    private String displayName;
 
     public Long getId() {
         return this.id;
@@ -32,5 +33,9 @@ public class UserDTO {
 
     public String getEmail() {
         return this.email;
+    }
+    
+    public String getDisplayName() {
+        return this.displayName;
     }
 }

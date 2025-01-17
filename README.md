@@ -23,7 +23,11 @@
    - **meetingService**
    - **authService**
 2. Architecture: Microservices
-3. HTTP(s) Communication: RestTemplate OR Apache Kafka (**if you use Kafka, be EXTREMELY CAREFUL, tech eng will not forgive you if you say sth wrong rather nothing**).
+3. HTTP(s) Communication: 
+   - RestTemplate (Blocking I/O, Synchronous HTTP Requests) 
+   - WebClient (Non-Blocking I/O, Asynchronous HTTP Requests)
+   - FeignClient
+   - Apache Kafka (**if you use Kafka, be EXTREMELY CAREFUL, tech eng will not forgive you if you say sth wrong rather nothing**).
 
 ## Database
 1. Schemas (updated later on)

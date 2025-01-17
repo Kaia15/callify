@@ -3,6 +3,7 @@ package io.callify_spring.MeetingApp.controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,8 @@ import io.callify_spring.MeetingApp.service.MeetingService;
 import java.util.*;
 
 import io.callify_spring.MeetingApp.model.UserInfo;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 @RestController
@@ -30,14 +33,27 @@ public class MeetingController {
         this.restTemplate = restTemplate;
     }
 
+    @GetMapping
+    public List<Meeting> getAllMeetings() {
+        return this.meetingService.getAllMeetings();
+    }
+
     @GetMapping("/{meetingId}")
     public Meeting getMeetingById(@PathVariable Long meetingId) {
         return this.meetingService.getMeetingById(meetingId);
     }
 
-    @PostMapping("/")
-    public Meeting createMeeting(@Valid MeetingDTO meetingDto) {
-        return this.meetingService.createMeetingByUser(meetingDto);
+    @PostMapping
+    public ResponseEntity<Long> createMeetingByUser(@RequestBody MeetingDTO meetingDto) {
+        if (meetingDto.getRecurrence() == null) {
+            throw new IllegalArgumentException("Recurrence details are required.");
+        }
+
+        // Forward to the service layer
+        Meeting meeting = meetingService.createMeetingByUser(meetingDto);
+
+        // Return the meeting ID
+        return ResponseEntity.ok(meeting.getId());
     }
 
     @GetMapping("/{meetingId}/attendees")
@@ -45,9 +61,10 @@ public class MeetingController {
         return this.meetingService.getAllMeetingAttendeesById(meetingId);
     }
 
-    @GetMapping
-    public List<Meeting> getMeetingsByUser(@RequestParam Long userId) {
+    @GetMapping("/{userId}")
+    public List<Meeting> getMeetingsByUser(@PathVariable Long userId) {
         // Call the service layer to fetch the meetings based on the userId
+        // Called from "GET: /{userId}/meetings"
         return this.meetingService.getAllMeetingsByUser(userId);
     }
 

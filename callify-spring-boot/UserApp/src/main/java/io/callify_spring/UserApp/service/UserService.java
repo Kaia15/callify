@@ -10,12 +10,14 @@ import io.callify_spring.UserApp.model.User;
 import io.callify_spring.UserApp.model.UserType;
 import io.callify_spring.UserApp.repository.UserRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 @Service
 public class UserService implements IUserService {
 
+    @Autowired
     private UserRepository userRepository;
 
     public UserService(UserRepository repository) {
@@ -41,8 +43,8 @@ public class UserService implements IUserService {
         return this.userRepository.findByEmail(email);
     };
 
-    public User updateUser(UserDTO userDto) {
-        User foundUser = this.getUserById(userDto.getId());
+    public User updateUser(Long userId, UserDTO userDto) {
+        User foundUser = this.getUserById(userId);
         foundUser.modifyUserFromDTO(userDto);
         this.userRepository.save(foundUser);
         return foundUser;

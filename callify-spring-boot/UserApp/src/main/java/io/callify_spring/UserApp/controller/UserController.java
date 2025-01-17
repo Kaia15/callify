@@ -1,5 +1,6 @@
 package io.callify_spring.UserApp.controller;
 
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.validation.Valid;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -21,6 +23,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import org.springframework.http.MediaType; // For setting content type (e.g., application/json)
+import org.springframework.http.HttpHeaders;
+
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
@@ -32,6 +37,10 @@ public class UserController {
         this.restTemplate = restTemplate;
     }
 
+    // public UserController(UserService service) {
+    //     this.userService = service;
+    // }
+
     @GetMapping // get all users with & without pagination
     public List<User> getAllUsers(
         @RequestParam(required = false) Integer offset,
@@ -42,7 +51,7 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @PostMapping("/")
+    @PostMapping
     public User createUser(@Valid @RequestBody UserDTO userDto) {
         return this.userService.createUser(userDto.getEmail(),userDto.getFirstName(),userDto.getLastName(),userDto.getPassword());
     }
@@ -52,9 +61,10 @@ public class UserController {
         return this.userService.getUserById(userId);
     }
 
-    @PatchMapping("/")
-    public User getUserById(@Valid @RequestBody UserDTO userDto) {
-        return this.userService.updateUser(userDto);
+    @PatchMapping("/{userId}")
+    public User modifyUserById(@PathVariable Long userId, @Valid @RequestBody UserDTO userDto) {
+        System.out.println(userId);
+        return this.userService.updateUser(userId, userDto);
     }
 
     @DeleteMapping("/{userId}")
@@ -62,17 +72,48 @@ public class UserController {
         this.userService.deleteUserById(userId);;
     }
 
+    // @PostMapping("/{userId}/meetings")
+    // public Long createMeetingByUser(@PathVariable Long userId) {
+    //     // TO-DO: make request to meetingService
+    //     String url = "http://localhost:8081/api/v1/meetings";
+
+    //     // mock request body - need to replace 123 w. userId
+    //     String requestBody = "{\n" +
+    //         "  \"id\": 123,\n" +
+    //         "  \"joinUrl\": \"https://meeting.com/join/12345\",\n" +
+    //         "  \"createdAt\": \"2025-01-15T10:00:00\",\n" +
+    //         "  \"meetingType\": \"SCHEDULED\",\n" +
+    //         "  \"duration\": 60,\n" +
+    //         "  \"passcode\": \"abc123\",\n" +
+    //         "  \"recurrence\": {\n" +
+    //         "    \"type\": \"DAILY\",\n" +
+    //         "    \"repeatInterval\": 1,\n" +
+    //         "    \"startDateTime\": \"2025-01-15T10:00:00\",\n" +
+    //         "    \"endDateTime\": \"2025-02-15T10:00:00\",\n" +
+    //         "    \"endTimes\": 10,\n" +
+    //         "    \"weeklyDays\": [1, 3, 5],\n" +
+    //         "    \"monthlyDay\": 15,\n" +
+    //         "    \"monthlyWeek\": 2,\n" +
+    //         "    \"monthlyWeekDay\": 3\n" +
+    //         "  },\n" +
+    //         "  \"attendeesIds\": [234, 345, 456, 567]\n" +
+    //         "}";
+
+
+    //     // FIX: mismatch type, correct type is Meeting
+    //     ResponseEntity<Long> response = this.restTemplate.postForEntity(url, requestBody, Long.class);
+    //     Long responseId = response.getBody();
+    //     return responseId;
+    // }
+    
     @PostMapping("/{userId}/meetings")
     public Long createMeetingByUser(@PathVariable Long userId) {
-        // TO-DO: make request to meetingService
-        String url = "http://localhost:8080/api/v1/meetings/";
-
-        // mock request body - need to replace 123 w. userId
+        // Hard-coded request body with userId dynamically replaced
         String requestBody = "{\n" +
-            "  \"id\": 123,\n" +
+            "  \"id\": null,\n" +
             "  \"joinUrl\": \"https://meeting.com/join/12345\",\n" +
-            "  \"registrantId\": 1,\n" +
-            "  \"createdAt\": \"2025-01-15T10:00:00\",\n" +
+            "  \"registrantId\": " + userId + ",\n" +
+            "  \"createdAt\": \"" + LocalDateTime.now() + "\",\n" +
             "  \"meetingType\": \"SCHEDULED\",\n" +
             "  \"topic\": \"Team Meeting\",\n" +
             "  \"duration\": 60,\n" +
@@ -80,36 +121,49 @@ public class UserController {
             "  \"recurrence\": {\n" +
             "    \"type\": \"DAILY\",\n" +
             "    \"repeatInterval\": 1,\n" +
-            "    \"startDateTime\": \"2025-01-15T10:00:00\",\n" +
-            "    \"endDateTime\": \"2025-02-15T10:00:00\",\n" +
+            "    \"startDateTime\": \"" + LocalDateTime.now() + "\",\n" +
+            "    \"endDateTime\": \"" + LocalDateTime.now().plusDays(30) + "\",\n" +
             "    \"endTimes\": 10,\n" +
             "    \"weeklyDays\": [1, 3, 5],\n" +
             "    \"monthlyDay\": 15,\n" +
             "    \"monthlyWeek\": 2,\n" +
             "    \"monthlyWeekDay\": 3\n" +
             "  },\n" +
-            "  \"attendeesIds\": [234, 345, 456, 567]\n" +
+            "  \"attendeesIds\": [1]\n"+
             "}";
 
-        ResponseEntity<Long> response = this.restTemplate.postForEntity(url, requestBody, Long.class);
-        Long responseId = response.getBody();
-        return responseId;
+        // Set the headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // Create the HttpEntity with the hard-coded JSON body
+        HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
+
+        // Send the POST request
+        String url = "http://localhost:8081/api/v1/meetings";
+        ResponseEntity<Long> response = this.restTemplate.postForEntity(url, entity, Long.class);
+
+        // Return the response ID
+        return response.getBody();
     }
 
-    @GetMapping("/{userId}/meetings")
-    public List<Long> getMeetingsByUser(@PathVariable Long userId) {
-        // TO-DO: make request to meetingService
-        // list all meeting ids
-        String url = "http://localhost:8080/api/v1/meetings?userId=" + userId;
 
-        // Using getForEntity with List.class (this works for simple types)
-        ResponseEntity<List> response = this.restTemplate.getForEntity(url, List.class);
 
-        // Cast the response body to List<Long>
-        List<Long> responseList = (List<Long>) response.getBody();
+    // @GetMapping("/{userId}/meetings")
+    // public List<Long> getMeetingsByUser(@PathVariable Long userId) {
+    //     // TO-DO: make request to meetingService
+    //     // list all meeting ids
+    //     String url = "http://localhost:8080/api/v1/meetings?userId=" + userId;
 
-        // Return the List<Long>
-        return responseList;
-    }
+    //     // Using getForEntity with List.class (this works for simple types)
+    //     // FIX: mismatch return type, correct type is Meeting
+    //     ResponseEntity<List> response = this.restTemplate.getForEntity(url, List.class);
+
+    //     // Cast the response body to List<Long>
+    //     List<Long> responseList = (List<Long>) response.getBody();
+
+    //     // Return the List<Long>
+    //     return responseList;
+    // }
 }
 

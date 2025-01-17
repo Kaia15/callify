@@ -1,114 +1,161 @@
 package io.callify_spring.MeetingApp.model;
 
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import io.callify_spring.MeetingApp.dto.MeetingDTO;
 import io.callify_spring.MeetingApp.dto.MeetingDTO.RecurrenceDTO;
-import jakarta.persistence.*;
 
-// for now, one meeting only maps with one registrant
+@Entity
+@Table(name = "meetings")
 public class Meeting {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false)
-    private String joinUrl; // auto-generate
+    @Column
+    private String joinUrl;
 
-    @Column(nullable = false)
+    @Column
     private Long registrantId;
 
-    @Column(nullable = false)
+    @Column
     private LocalDateTime createdAt;
 
-    @Column(nullable = false)
-    private MeetingType meetingType; // {BASIC, INSTANT, RECURRING_NO_FIXED_TIME, RECURRING_FIXED_TIME}
+    @Enumerated(EnumType.STRING)
+    @Column
+    private MeetingType meetingType;
 
-    @Column(nullable = false)
+    @Column
     private String topic;
 
-    @Column(nullable = false)
+    @Column
     private int duration;
 
-    @Column(nullable = false)
-    private String passcode; // Auto-generate or user-provided
+    @Column
+    private String passcode;
 
-    @Embedded // make Recurrence not treated as a separate entity
+    @Embedded
     private Recurrence recurrence;
 
-    // make a nested class but independent of outer class
-    @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MeetingOccurrence> occurrences;
+    @ElementCollection
+    @CollectionTable(name = "meeting_attendee_ids", joinColumns = @JoinColumn(name = "meeting_id"))
+    @Column(name = "attendee_id")
+    private List<Long> attendeeIds;
 
-    // Many-to-many relationship with attendees
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-        name = "meeting_attendees", 
-        joinColumns = @JoinColumn(name = "meeting_id"), 
-        inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private List<Long> attendeeIds; // Store user IDs instead of User entities
-
-
-    // Getters and setters
+    // Constructors
+    public Meeting() {}
 
     public Meeting(Long userId, String topic, int duration) {
         this.registrantId = userId;
         this.topic = topic;
         this.duration = duration;
+        this.createdAt = LocalDateTime.now();
     }
 
-    public List<Long> getAttendees() {
-        return this.attendeeIds;
+    // Getters and Setters
+    public Long getId() {
+        return id;
     }
 
-    public void setRecurrence(Recurrence recurrence) {
-        this.recurrence = recurrence;
+    public String getJoinUrl() {
+        return joinUrl;
+    }
+
+    public void setJoinUrl(String joinUrl) {
+        this.joinUrl = joinUrl;
+    }
+
+    public Long getRegistrantId() {
+        return registrantId;
+    }
+
+    public void setRegistrantId(Long registrantId) {
+        this.registrantId = registrantId;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public MeetingType getMeetingType() {
+        return meetingType;
     }
 
     public void setMeetingType(MeetingType meetingType) {
         this.meetingType = meetingType;
     }
 
+    public String getTopic() {
+        return topic;
+    }
+
     public void setTopic(String topic) {
         this.topic = topic;
     }
 
-    public void setDuration(Integer duration) {
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
         this.duration = duration;
     }
 
-    public Recurrence getRecurrence() {
-        return this.recurrence;
+    public String getPasscode() {
+        return passcode;
     }
 
+    public void setPasscode(String passcode) {
+        this.passcode = passcode;
+    }
 
-    public void setMeetingFromDTO(RecurrenceDTO recurrenceFromDto, LocalDateTime STime, RecurrenceType RType) {
+    public Recurrence getRecurrence() {
+        return recurrence;
+    }
+
+    public void setRecurrence(Recurrence recurrence) {
+        this.recurrence = recurrence;
+    }
+
+    public List<Long> getAttendeeIds() {
+        return attendeeIds;
+    }
+
+    public void setAttendeeIds(List<Long> attendeeIds) {
+        this.attendeeIds = attendeeIds;
+    }
+
+    // Method to populate meeting from DTOs
+    public void setMeetingFromDTO(RecurrenceDTO recurrenceFromDto, LocalDateTime startTime, RecurrenceType recurrenceType) {
         if (recurrenceFromDto != null) {
-            Meeting.Recurrence recurrence = new Meeting.Recurrence();
-            recurrence.setType(RType);
+            Recurrence recurrence = new Recurrence();
+            recurrence.setType(recurrenceType);
             recurrence.setRepeatInterval(recurrenceFromDto.getRepeatInterval());
-            recurrence.setStartDateTime(STime);
+            recurrence.setStartDateTime(startTime);
             recurrence.setEndDateTime(recurrenceFromDto.getEndDateTime());
             recurrence.setEndTimes(recurrenceFromDto.getEndTimes());
             recurrence.setWeeklyDays(recurrenceFromDto.getWeeklyDays());
             recurrence.setMonthlyDay(recurrenceFromDto.getMonthlyDay());
             recurrence.setMonthlyWeek(recurrenceFromDto.getMonthlyWeek());
             recurrence.setMonthlyWeekDay(recurrenceFromDto.getMonthlyWeekDay());
-    
+
             this.setRecurrence(recurrence);
         }
     }
 
     public void updateMeetingFromDTO(MeetingDTO meetingDTO, RecurrenceDTO recurrenceDTO) {
         if (meetingDTO != null) {
-            // Update the meeting fields from DTO
             if (meetingDTO.getTopic() != null) {
                 this.setTopic(meetingDTO.getTopic());
             }
-            
+
             if (meetingDTO.getDuration() > 0) {
                 this.setDuration(meetingDTO.getDuration());
             }
@@ -116,45 +163,92 @@ public class Meeting {
             if (meetingDTO.getMeetingType() != null) {
                 this.setMeetingType(meetingDTO.getMeetingType());
             }
+
+            if (meetingDTO.getPasscode() != null) {
+                this.setPasscode(meetingDTO.getPasscode());
+            }
         }
 
-        // Update recurrence if available
         if (recurrenceDTO != null) {
-            this.setMeetingFromDTO(recurrenceDTO, this.getRecurrence().getStartDateTime(), this.getRecurrence().getType());
+            Recurrence recurrence = this.getRecurrence();
+            if (recurrence == null) {
+                recurrence = new Recurrence();
+                this.setRecurrence(recurrence);
+            }
+
+            if (recurrenceDTO.getRepeatInterval() != null) {
+                recurrence.setRepeatInterval(recurrenceDTO.getRepeatInterval());
+            }
+
+            if (recurrenceDTO.getStartDateTime() != null) {
+                recurrence.setStartDateTime(recurrenceDTO.getStartDateTime());
+            }
+
+            if (recurrenceDTO.getEndDateTime() != null) {
+                recurrence.setEndDateTime(recurrenceDTO.getEndDateTime());
+            }
+
+            if (recurrenceDTO.getEndTimes() != null) {
+                recurrence.setEndTimes(recurrenceDTO.getEndTimes());
+            }
+
+            if (recurrenceDTO.getWeeklyDays() != null) {
+                recurrence.setWeeklyDays(recurrenceDTO.getWeeklyDays());
+            }
+
+            if (recurrenceDTO.getMonthlyDay() != null) {
+                recurrence.setMonthlyDay(recurrenceDTO.getMonthlyDay());
+            }
+
+            if (recurrenceDTO.getMonthlyWeek() != null) {
+                recurrence.setMonthlyWeek(recurrenceDTO.getMonthlyWeek());
+            }
+
+            if (recurrenceDTO.getMonthlyWeekDay() != null) {
+                recurrence.setMonthlyWeekDay(recurrenceDTO.getMonthlyWeekDay());
+            }
+
+            if (recurrenceDTO.getType() != null) {
+                recurrence.setType(recurrenceDTO.getType());
+            }
         }
     }
 
-
+    // Embedded Recurrence Class
+    @Embeddable
     public static class Recurrence {
 
-        @Column(nullable = false)
-        private RecurrenceType type; // DAILY, WEEKLY, MONTHLY, NONE
+        @Enumerated(EnumType.STRING)
+        @Column
+        private RecurrenceType type;
 
         @Column
-        private Integer repeatInterval; // Number of intervals between recurrences (e.g., every 2 weeks)
+        private Integer repeatInterval;
 
         @Column
-        private LocalDateTime startDateTime; // Start date-time for the recurrence
+        private LocalDateTime startDateTime;
 
         @Column
-        private LocalDateTime endDateTime; // End date-time for the recurrence
+        private LocalDateTime endDateTime;
 
         @Column
-        private Integer endTimes; // Maximum number of occurrences
+        private Integer endTimes;
 
         @ElementCollection
-        private List<Integer> weeklyDays; // Days of the week for recurrence (1-7 for Sunday-Saturday)
+        @CollectionTable(name = "recurrence_weekly_days", joinColumns = @JoinColumn(name = "meeting_id"))
+        @Column(name = "day")
+        private List<Integer> weeklyDays; // List of integers representing days of the week (1-7)
 
         @Column
-        private Integer monthlyDay; // Specific day of the month
+        private Integer monthlyDay;
 
         @Column
-        private Integer monthlyWeek; // Week of the month (1-4 or -1 for last)
+        private Integer monthlyWeek;
 
         @Column
-        private Integer monthlyWeekDay; // Day of the week for monthly recurrence (1-7)
+        private Integer monthlyWeekDay;
 
-        // Getters and Setters for Recurrence class
+        // Getters and Setters
         public RecurrenceType getType() {
             return type;
         }
@@ -227,7 +321,4 @@ public class Meeting {
             this.monthlyWeekDay = monthlyWeekDay;
         }
     }
-
-    // Getters and setters
-    
 }

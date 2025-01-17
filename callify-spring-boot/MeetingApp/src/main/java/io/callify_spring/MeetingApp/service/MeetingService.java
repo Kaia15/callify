@@ -2,6 +2,9 @@ package io.callify_spring.MeetingApp.service;
 
 import java.util.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import io.callify_spring.MeetingApp.dto.MeetingDTO;
 import io.callify_spring.MeetingApp.dto.MeetingDTO.RecurrenceDTO;
 import io.callify_spring.MeetingApp.model.Meeting;
@@ -11,7 +14,10 @@ import io.callify_spring.MeetingApp.repository.MeetingRepository;
 
 import java.time.LocalDateTime;
 
+@Service
 public class MeetingService implements IMeetingService {
+
+    @Autowired
     private MeetingRepository meetingRepository;
 
     public MeetingService(MeetingRepository repository) {
@@ -34,21 +40,24 @@ public class MeetingService implements IMeetingService {
     // might include registrant id and all remaining attendees' ids
     public List<Long> getAllMeetingAttendeesById(Long meetingId) {
         Meeting foundMeeting = this.getMeetingById(meetingId);
-        return foundMeeting.getAttendees();
+        return foundMeeting.getAttendeeIds();
     }; 
 
     // in this case, userId is equal to registrantId
     public Meeting createMeetingByUser(MeetingDTO meetingDto) {
+        System.out.println("processing meeting...");
         if (meetingDto.getRegistrantId() == null || meetingDto.getTopic() == null) {
             throw new IllegalArgumentException("Registrant ID and Topic are required.");
         }
+
+        // TO-DO: generate joinUrl & passcode
         
         Meeting newMeeting = new Meeting(meetingDto.getRegistrantId(), meetingDto.getTopic(), meetingDto.getDuration());
         RecurrenceDTO recurrenceFromDto = meetingDto.getRecurrence();
         
-        if (recurrenceFromDto == null) {
-            throw new IllegalArgumentException("Recurrence details are required.");
-        }
+        // if (recurrenceFromDto == null) {
+        //     throw new IllegalArgumentException("Recurrence details are required.");
+        // }
 
         RecurrenceType RType = recurrenceFromDto.getType();
         LocalDateTime STime = recurrenceFromDto.getStartDateTime();
@@ -67,6 +76,8 @@ public class MeetingService implements IMeetingService {
         } else {
             newMeeting.setMeetingType(MeetingType.RECURRING_FIXED_TIME); // only change if occurrences happen
         }
+
+        this.meetingRepository.save(newMeeting);
 
         return newMeeting;
 

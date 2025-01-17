@@ -8,7 +8,7 @@ import io.callify_spring.MeetingApp.model.Meeting;
 import java.util.*;
 
 public interface MeetingRepository extends JpaRepository<Meeting,Long> {
-    @Query("SELECT m FROM Meeting m JOIN m.attendees a WHERE a.id = :userId")
+    @Query("SELECT m FROM Meeting m WHERE :userId IN elements(m.attendeeIds)")
     List<Meeting> getAllMeetingsByUser(Long userId);
     
 }  

@@ -9,9 +9,8 @@ import jakarta.validation.constraints.NotBlank;
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
 
     @NotBlank
     @Email
@@ -28,15 +27,20 @@ public class User {
     private String displayName;
 
     @NotBlank
-    @Column
+    @Column(nullable = false)
     private String password;
 
     @NotBlank
     @Enumerated(EnumType.STRING)
-    @Column
+    @Column(name = "plan_united_type", nullable = false)
     private UserType planUnitedType;
 
-    public User(String email,String firstName,String lastName,String password,UserType planUnitedType) {
+    // Default constructor
+    public User() {
+    }
+
+    // Full constructor
+    public User(String email, String firstName, String lastName, String password, UserType planUnitedType) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -44,12 +48,19 @@ public class User {
         this.planUnitedType = planUnitedType;
     }
 
+    // Getters and Setters (not shown for brevity)
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return id != null && id.equals(user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 31;
     }
 
     public void modifyUserFromDTO(UserDTO userDto) {
@@ -62,8 +73,40 @@ public class User {
         if (userDto.getPassword() != null && !userDto.getPassword().isEmpty()) {
             this.password = userDto.getPassword();
         }
+        if (userDto.getDisplayName() != null && !userDto.getDisplayName().isEmpty()) {
+            this.displayName = userDto.getDisplayName();
+        }
         if (userDto.getPlanUnitedType() != null) {
             this.planUnitedType = userDto.getPlanUnitedType();
         }
     }
+
+    public Long getId() {
+        return id;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
+    
+    public String getFirstName() {
+        return firstName;
+    }
+    
+    public String getLastName() {
+        return lastName;
+    }
+    
+    public String getDisplayName() {
+        return displayName;
+    }
+    
+    public String getPassword() {
+        return password;
+    }
+    
+    public UserType getPlanUnitedType() {
+        return planUnitedType;
+    }
+    
 }
