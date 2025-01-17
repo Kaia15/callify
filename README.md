@@ -126,7 +126,7 @@ callify-spring-boot/
 
 2. User Service: (PORT=8080)
    - ✅ **POST**: `http://localhost:8080/api/v1/users/`
-   - (Optional) **GET**: `http://localhost:8080/api/v1/users?offset={offset}&pagenum={pagenum}`
+   - ✅ **GET**: `http://localhost:8080/api/v1/users?offset={offset}&pagenum={pagenum}`
    - ✅ **GET**: `http://localhost:8080/api/v1/users/`
    - ✅ **POST**: `http://localhost:8080/api/v1/users/{userId}/meetings` (Create a meeting for a user)
    - ✅ **GET**: `http://localhost:8080/api/v1/users/{userId}/meetings` (Retrieve all user's meetings)
