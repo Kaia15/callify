@@ -14,11 +14,13 @@ import jakarta.validation.Valid;
 import io.callify_spring.MeetingApp.dto.MeetingDTO;
 import io.callify_spring.MeetingApp.model.Meeting;
 import io.callify_spring.MeetingApp.service.MeetingService;
+import io.callify_spring.MeetingApp.service.ZoomService;
 
 import java.util.*;
 
 import io.callify_spring.MeetingApp.model.UserInfo;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
@@ -27,10 +29,12 @@ import org.springframework.http.ResponseEntity;
 public class MeetingController {
     private MeetingService meetingService;
     private final RestTemplate restTemplate;
+    private ZoomService zoomService;
     
-    public MeetingController(MeetingService service,RestTemplate restTemplate) {
+    public MeetingController(MeetingService service,RestTemplate restTemplate, ZoomService zoomService) {
         this.meetingService = service;
         this.restTemplate = restTemplate;
+        this.zoomService = zoomService;
     }
 
     @GetMapping
@@ -93,4 +97,9 @@ public class MeetingController {
         }
     }
 
+    @GetMapping("/test/zoom")
+    public JSONObject createMeetingByZoom() {
+        JSONObject newZoomMeeting = this.zoomService.createZoomMeeting();
+        return newZoomMeeting;
+    }
 }

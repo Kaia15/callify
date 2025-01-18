@@ -1,7 +1,7 @@
 // zoom-api.js (Frontend Only)
 
 import CryptoJS from 'crypto-js';
-import { ZoomMtg } from '@zoomus/websdk';
+import { ZoomMtg } from "@zoom/meetingsdk";
 
 // Zoom API credentials (should ideally be stored securely)
 const API_KEY = 'ShwzewRtT4Rs9OyeViU9w';
