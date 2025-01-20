@@ -19,6 +19,7 @@ import io.callify_spring.MeetingApp.service.ZoomService;
 import java.util.*;
 
 import io.callify_spring.MeetingApp.model.UserInfo;
+import io.callify_spring.MeetingApp.model.ZoomMeeting;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,9 @@ public class MeetingController {
             throw new IllegalArgumentException("Recurrence details are required.");
         }
 
+        // Make call to Zoom Service 
+        ZoomMeeting zoomMeeting = zoomService.createZoomMeeting();
+
         // Forward to the service layer
         Meeting meeting = meetingService.createMeetingByUser(meetingDto);
 
@@ -97,9 +101,9 @@ public class MeetingController {
         }
     }
 
-    @GetMapping("/test/zoom")
-    public JSONObject createMeetingByZoom() {
-        JSONObject newZoomMeeting = this.zoomService.createZoomMeeting();
+    @GetMapping("/zoom/test")
+    public ZoomMeeting createMeetingByZoom() {
+        ZoomMeeting newZoomMeeting = this.zoomService.createZoomMeeting();
         return newZoomMeeting;
     }
 }

@@ -50,7 +50,7 @@ public class MeetingService implements IMeetingService {
             throw new IllegalArgumentException("Registrant ID and Topic are required.");
         }
 
-        // TO-DO: generate joinUrl & passcode
+        // TO-DO: generate joinUrl & passcode (retrieve from Zoom Service)
         
         Meeting newMeeting = new Meeting(meetingDto.getRegistrantId(), meetingDto.getTopic(), meetingDto.getDuration());
         RecurrenceDTO recurrenceFromDto = meetingDto.getRecurrence();
