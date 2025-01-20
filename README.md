@@ -1,5 +1,7 @@
 # Callify
 
+## Goal: Build a Zoom-clone app integrating Zoom-SDK (mainly backend)
+
 ## Reference: https://github.com/ansulagrawal/zoom-clone/
 
 ## Tech stacks
@@ -130,3 +132,5 @@ callify-spring-boot/
    - ✅ **GET**: `http://localhost:8080/api/v1/users/`
    - ✅ **POST**: `http://localhost:8080/api/v1/users/{userId}/meetings` (Create a meeting for a user)
    - ✅ **GET**: `http://localhost:8080/api/v1/users/{userId}/meetings` (Retrieve all user's meetings)
+
+3. Zoom Service (helpers)
