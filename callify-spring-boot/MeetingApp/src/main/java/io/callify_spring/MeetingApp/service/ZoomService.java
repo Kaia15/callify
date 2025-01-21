@@ -14,9 +14,9 @@ import java.util.*;
 @Service
 public class ZoomService {
 
-    private static final String CLIENT_ID = "r9WkuSjxQUb8_KkOnnfLQ";
-    private static final String CLIENT_SECRET = "O7BicaHjA2p8JerAFxLWtFCDvlkDVurI";
-    private static final String ACCOUNT_ID = "PWu3V64-R6u6OuapyAWGuA";
+    private static final String CLIENT_ID = "***";
+    private static final String CLIENT_SECRET = "****";
+    private static final String ACCOUNT_ID = "****";
     private static final String TOKEN_URL = "https://zoom.us/oauth/token?grant_type=account_credentials&account_id=";
     private static final String ZOOM_API_URL = "https://api.zoom.us/v2/users/baotranongtran@gmail.com/meetings";
 
