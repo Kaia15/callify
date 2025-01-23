@@ -73,40 +73,6 @@ public class UserController {
     public void deleteUserById(@PathVariable Long userId) {
         this.userService.deleteUserById(userId);;
     }
-
-    // @PostMapping("/{userId}/meetings")
-    // public Long createMeetingByUser(@PathVariable Long userId) {
-    //     // TO-DO: make request to meetingService
-    //     String url = "http://localhost:8081/api/v1/meetings";
-
-    //     // mock request body - need to replace 123 w. userId
-    //     String requestBody = "{\n" +
-    //         "  \"id\": 123,\n" +
-    //         "  \"joinUrl\": \"https://meeting.com/join/12345\",\n" +
-    //         "  \"createdAt\": \"2025-01-15T10:00:00\",\n" +
-    //         "  \"meetingType\": \"SCHEDULED\",\n" +
-    //         "  \"duration\": 60,\n" +
-    //         "  \"passcode\": \"abc123\",\n" +
-    //         "  \"recurrence\": {\n" +
-    //         "    \"type\": \"DAILY\",\n" +
-    //         "    \"repeatInterval\": 1,\n" +
-    //         "    \"startDateTime\": \"2025-01-15T10:00:00\",\n" +
-    //         "    \"endDateTime\": \"2025-02-15T10:00:00\",\n" +
-    //         "    \"endTimes\": 10,\n" +
-    //         "    \"weeklyDays\": [1, 3, 5],\n" +
-    //         "    \"monthlyDay\": 15,\n" +
-    //         "    \"monthlyWeek\": 2,\n" +
-    //         "    \"monthlyWeekDay\": 3\n" +
-    //         "  },\n" +
-    //         "  \"attendeesIds\": [234, 345, 456, 567]\n" +
-    //         "}";
-
-
-    //     // FIX: mismatch type, correct type is Meeting
-    //     ResponseEntity<Long> response = this.restTemplate.postForEntity(url, requestBody, Long.class);
-    //     Long responseId = response.getBody();
-    //     return responseId;
-    // }
     
     @PostMapping("/{userId}/meetings")
     public Long createMeetingByUser(@PathVariable Long userId) {

@@ -1,27 +1,27 @@
 package io.callify_spring.MeetingApp.dto;
 
-import java.util.*;
-
+import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import io.callify_spring.MeetingApp.model.MeetingType;
 import io.callify_spring.MeetingApp.model.RecurrenceType;
-
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class MeetingDTO {
 
     private Long id;
     private String joinUrl;
-    private Long registrantId; // This can be used to store the user ID when creating a meeting
+    private Long registrantId;
     private LocalDateTime createdAt;
-    private MeetingType meetingType; // This will be set to SCHEDULED by default
+    private MeetingType meetingType;
     private String topic;
     private int duration;
-    private String passcode; // Auto-generate or user-provided
+    private String passcode;
     private RecurrenceDTO recurrence;
-    private List<Long> attendeesIds; // This can store a list of user IDs for attendees
+    private List<Long> attendeesIds;
 
     // Getters and Setters
-
     public Long getId() {
         return id;
     }
@@ -102,8 +102,7 @@ public class MeetingDTO {
         this.attendeesIds = attendeesIds;
     }
 
-    // RecurrenceDTO nested class
-
+    // Nested RecurrenceDTO Class
     public static class RecurrenceDTO {
         private RecurrenceType type;
         private Integer repeatInterval;
@@ -187,5 +186,51 @@ public class MeetingDTO {
         public void setMonthlyWeekDay(Integer monthlyWeekDay) {
             this.monthlyWeekDay = monthlyWeekDay;
         }
+    }
+
+    // Convert MeetingDTO to JSONObject
+    public JSONObject convertToJson() {
+        JSONObject json = new JSONObject();
+
+        // Top-level fields
+        json.put("id", this.getId());
+        json.put("joinUrl", this.getJoinUrl());
+        json.put("registrantId", this.getRegistrantId());
+        json.put("createdAt", this.getCreatedAt() != null 
+            ? this.getCreatedAt().format(DateTimeFormatter.ISO_DATE_TIME) 
+            : null);
+        json.put("meetingType", this.getMeetingType() != null 
+            ? this.getMeetingType().name() 
+            : null);
+        json.put("topic", this.getTopic());
+        json.put("duration", this.getDuration());
+        json.put("passcode", this.getPasscode());
+
+        // Recurrence
+        if (this.getRecurrence() != null) {
+            JSONObject recurrenceJson = new JSONObject();
+            MeetingDTO.RecurrenceDTO recurrenceDTO = this.getRecurrence();
+
+            recurrenceJson.put("type", recurrenceDTO.getType() != null ? recurrenceDTO.getType().name() : null);
+            recurrenceJson.put("repeatInterval", recurrenceDTO.getRepeatInterval());
+            recurrenceJson.put("startDateTime", recurrenceDTO.getStartDateTime() != null 
+                ? recurrenceDTO.getStartDateTime().format(DateTimeFormatter.ISO_DATE_TIME) 
+                : null);
+            recurrenceJson.put("endDateTime", recurrenceDTO.getEndDateTime() != null 
+                ? recurrenceDTO.getEndDateTime().format(DateTimeFormatter.ISO_DATE_TIME) 
+                : null);
+            recurrenceJson.put("endTimes", recurrenceDTO.getEndTimes());
+            recurrenceJson.put("weeklyDays", recurrenceDTO.getWeeklyDays());
+            recurrenceJson.put("monthlyDay", recurrenceDTO.getMonthlyDay());
+            recurrenceJson.put("monthlyWeek", recurrenceDTO.getMonthlyWeek());
+            recurrenceJson.put("monthlyWeekDay", recurrenceDTO.getMonthlyWeekDay());
+
+            json.put("recurrence", recurrenceJson);
+        }
+
+        // Attendees
+        json.put("attendeesIds", this.getAttendeesIds() != null ? new JSONArray(this.getAttendeesIds()) : new JSONArray());
+
+        return json;
     }
 }

@@ -14,14 +14,17 @@ public class MeetingOccurrence {
     @JoinColumn(nullable = false)
     private Meeting meeting;
 
-    @Column(nullable = false)
-    private LocalDateTime occurrenceTime;
+    @Column
+    private Boolean status; // Mark if this instance is cancelled
 
     @Column
-    private Boolean cancelled; // Mark if this instance is cancelled
+    private LocalDateTime startTime; // Optional notes or details for this occurrence
 
-    @Column
-    private String notes; // Optional notes or details for this occurrence
+    @Column 
+    private int duration;
+
+    @Column 
+    private String zoomOccurrenceId; // created by Zoom API(s)
 
     // Getters and setters
 }

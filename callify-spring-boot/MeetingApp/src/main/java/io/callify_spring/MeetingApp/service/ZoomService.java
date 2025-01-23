@@ -8,8 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.json.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.callify_spring.MeetingApp.dto.MeetingDTO;
 import io.callify_spring.MeetingApp.model.ZoomMeeting;
-import java.util.*;
 
 @Service
 public class ZoomService {
@@ -51,18 +52,37 @@ public class ZoomService {
     }
 
     // Method to Create a Zoom Meeting
-    public ZoomMeeting createZoomMeeting() {
+    public ZoomMeeting createZoomMeeting(MeetingDTO meetingDto) {
         try {
             // Fetch Access Token
             String accessToken = getAccessToken();
 
-            // Meeting details
-            JSONObject meetingDetails = new JSONObject();
-            meetingDetails.put("topic", "Test Meeting");
-            meetingDetails.put("type", 1); // Instant meeting
-            meetingDetails.put("duration", 30); // Duration in minutes
-            meetingDetails.put("timezone", "America/Los_Angeles");
-            meetingDetails.put("password", "123456"); // Optional: Set a meeting password
+            // Create the request body as a JSONObject
+            // JSONObject meetingDetails = new JSONObject();
+            // meetingDetails.put("topic", "Test Meeting");
+            // meetingDetails.put("type", 1); // Instant meeting
+            // meetingDetails.put("duration", 30); // Duration in minutes
+            // meetingDetails.put("timezone", "America/Los_Angeles");
+            // meetingDetails.put("password", "123456"); // Optional: Set a meeting password
+
+            // Meeting details (recurring meeting with fixed time)
+            JSONObject meetingDetails = meetingDto.convertToJson();
+            // meetingDetails.put("topic", "Test Meeting");
+            // meetingDetails.put("type", 8); // Scheduled recurring meeting
+            // meetingDetails.put("duration", 30); // Duration in minutes
+            // meetingDetails.put("timezone", "America/Los_Angeles");
+            // meetingDetails.put("password", "123456"); // Optional: Set a meeting password
+
+            // // Recurrence object
+            // JSONObject recurrence = new JSONObject();
+            // recurrence.put("type", 3); // Monthly recurrence
+            // recurrence.put("repeat_interval", 1); // Every 1 month
+            // recurrence.put("monthly_day", 15); // Meeting recurs on the 15th of the month
+            // recurrence.put("end_date_time", "2025-12-31T00:00:00Z"); // Recurrence ends on this date (UTC)
+
+            // // Add the recurrence object to the meeting details
+            // meetingDetails.put("recurrence", recurrence);
+
 
             // Set headers
             HttpHeaders headers = new HttpHeaders();
@@ -82,7 +102,7 @@ public class ZoomService {
 
             // Log the response
             // System.out.println("Response Status: " + response.getStatusCode());
-            // System.out.println("Response Body: " + response.getBody());
+            System.out.println("Response Body: " + response.getBody());
 
             // Use ObjectMapper to map JSON to ZoomMeeting object
             ObjectMapper objectMapper = new ObjectMapper();

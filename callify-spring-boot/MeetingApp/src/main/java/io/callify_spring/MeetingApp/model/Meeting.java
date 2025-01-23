@@ -2,10 +2,9 @@ package io.callify_spring.MeetingApp.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
-import io.callify_spring.MeetingApp.dto.MeetingDTO;
-import io.callify_spring.MeetingApp.dto.MeetingDTO.RecurrenceDTO;
 
 @Entity
 @Table(name = "meetings")
@@ -19,7 +18,13 @@ public class Meeting {
     private String joinUrl;
 
     @Column
-    private Long registrantId;
+    private String startUrl;
+
+    @Column
+    private String hostId;
+
+    @Column
+    private String hostEmail;
 
     @Column
     private LocalDateTime createdAt;
@@ -37,6 +42,18 @@ public class Meeting {
     @Column
     private String passcode;
 
+    @Column
+    private Long registrantId;
+
+    public Long getRegistrantId() {
+        return registrantId;
+    }
+
+    public void setRegistrantId(Long registrantId) {
+        this.registrantId = registrantId;
+    }
+
+
     @Embedded
     private Recurrence recurrence;
 
@@ -45,11 +62,15 @@ public class Meeting {
     @Column(name = "attendee_id")
     private List<Long> attendeeIds;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "meeting_id")
+    private List<Occurrence> occurrences = new ArrayList<>();
+
     // Constructors
     public Meeting() {}
 
     public Meeting(Long userId, String topic, int duration) {
-        this.registrantId = userId;
+        this.hostId = String.valueOf(userId); // Using userId as hostId
         this.topic = topic;
         this.duration = duration;
         this.createdAt = LocalDateTime.now();
@@ -68,12 +89,28 @@ public class Meeting {
         this.joinUrl = joinUrl;
     }
 
-    public Long getRegistrantId() {
-        return registrantId;
+    public String getStartUrl() {
+        return startUrl;
     }
 
-    public void setRegistrantId(Long registrantId) {
-        this.registrantId = registrantId;
+    public void setStartUrl(String startUrl) {
+        this.startUrl = startUrl;
+    }
+
+    public String getHostId() {
+        return hostId;
+    }
+
+    public void setHostId(String hostId) {
+        this.hostId = hostId;
+    }
+
+    public String getHostEmail() {
+        return hostEmail;
+    }
+
+    public void setHostEmail(String hostEmail) {
+        this.hostEmail = hostEmail;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -132,89 +169,67 @@ public class Meeting {
         this.attendeeIds = attendeeIds;
     }
 
-    // Method to populate meeting from DTOs
-    public void setMeetingFromDTO(RecurrenceDTO recurrenceFromDto, LocalDateTime startTime, RecurrenceType recurrenceType) {
-        if (recurrenceFromDto != null) {
-            Recurrence recurrence = new Recurrence();
-            recurrence.setType(recurrenceType);
-            recurrence.setRepeatInterval(recurrenceFromDto.getRepeatInterval());
-            recurrence.setStartDateTime(startTime);
-            recurrence.setEndDateTime(recurrenceFromDto.getEndDateTime());
-            recurrence.setEndTimes(recurrenceFromDto.getEndTimes());
-            recurrence.setWeeklyDays(recurrenceFromDto.getWeeklyDays());
-            recurrence.setMonthlyDay(recurrenceFromDto.getMonthlyDay());
-            recurrence.setMonthlyWeek(recurrenceFromDto.getMonthlyWeek());
-            recurrence.setMonthlyWeekDay(recurrenceFromDto.getMonthlyWeekDay());
-
-            this.setRecurrence(recurrence);
-        }
+    public List<Occurrence> getOccurrences() {
+        return occurrences;
     }
 
-    public void updateMeetingFromDTO(MeetingDTO meetingDTO, RecurrenceDTO recurrenceDTO) {
-        if (meetingDTO != null) {
-            if (meetingDTO.getTopic() != null) {
-                this.setTopic(meetingDTO.getTopic());
-            }
+    public void setOccurrences(List<Occurrence> occurrences) {
+        this.occurrences = occurrences;
+    }
 
-            if (meetingDTO.getDuration() > 0) {
-                this.setDuration(meetingDTO.getDuration());
-            }
+    // Method to set Meeting from ZoomMeeting
+    public void setMeetingFromZoomMeeting(ZoomMeeting zoomMeeting) {
+        if (zoomMeeting != null) {
+            // this.setId(zoomMeeting.getId());
+            this.setTopic(zoomMeeting.getTopic());
+            this.setDuration(30);
+            this.setPasscode(zoomMeeting.getPassword());
+            this.setJoinUrl(zoomMeeting.getJoin_url());
+            this.setStartUrl(zoomMeeting.getStart_url());
+            this.setHostId(zoomMeeting.getHost_id());
+            this.setHostEmail(zoomMeeting.getHost_email());
+            this.setCreatedAt(zoomMeeting.getCreated_at() != null
+                ? LocalDateTime.parse(zoomMeeting.getCreated_at()) : LocalDateTime.now());
+            this.setMeetingType(zoomMeeting.getType() == 8 ? 
+                MeetingType.RECURRING_FIXED_TIME : MeetingType.SCHEDULED);
 
-            if (meetingDTO.getMeetingType() != null) {
-                this.setMeetingType(meetingDTO.getMeetingType());
-            }
+            // Handle recurrence
+            if (zoomMeeting.getRecurrence() != null) {
+                Recurrence recurrence = new Recurrence();
 
-            if (meetingDTO.getPasscode() != null) {
-                this.setPasscode(meetingDTO.getPasscode());
-            }
-        }
+                int rType = zoomMeeting.getRecurrence().getType();
+                if (rType == 3)
+                    recurrence.setType(RecurrenceType.MONTHLY);
+                else if (rType == 2)
+                    recurrence.setType(RecurrenceType.WEEKLY);
+                else if (rType == 1)
+                    recurrence.setType(RecurrenceType.DAILY);
+                else 
+                    recurrence.setType(RecurrenceType.NONE);
 
-        if (recurrenceDTO != null) {
-            Recurrence recurrence = this.getRecurrence();
-            if (recurrence == null) {
-                recurrence = new Recurrence();
+                recurrence.setRepeatInterval(zoomMeeting.getRecurrence().getRepeat_interval());
+                recurrence.setMonthlyDay(zoomMeeting.getRecurrence().getMonthly_day());
+                recurrence.setEndDateTime(zoomMeeting.getRecurrence().getEnd_date_time() != null
+                    ? LocalDateTime.parse(zoomMeeting.getRecurrence().getEnd_date_time()) : null);
                 this.setRecurrence(recurrence);
             }
 
-            if (recurrenceDTO.getRepeatInterval() != null) {
-                recurrence.setRepeatInterval(recurrenceDTO.getRepeatInterval());
-            }
-
-            if (recurrenceDTO.getStartDateTime() != null) {
-                recurrence.setStartDateTime(recurrenceDTO.getStartDateTime());
-            }
-
-            if (recurrenceDTO.getEndDateTime() != null) {
-                recurrence.setEndDateTime(recurrenceDTO.getEndDateTime());
-            }
-
-            if (recurrenceDTO.getEndTimes() != null) {
-                recurrence.setEndTimes(recurrenceDTO.getEndTimes());
-            }
-
-            if (recurrenceDTO.getWeeklyDays() != null) {
-                recurrence.setWeeklyDays(recurrenceDTO.getWeeklyDays());
-            }
-
-            if (recurrenceDTO.getMonthlyDay() != null) {
-                recurrence.setMonthlyDay(recurrenceDTO.getMonthlyDay());
-            }
-
-            if (recurrenceDTO.getMonthlyWeek() != null) {
-                recurrence.setMonthlyWeek(recurrenceDTO.getMonthlyWeek());
-            }
-
-            if (recurrenceDTO.getMonthlyWeekDay() != null) {
-                recurrence.setMonthlyWeekDay(recurrenceDTO.getMonthlyWeekDay());
-            }
-
-            if (recurrenceDTO.getType() != null) {
-                recurrence.setType(recurrenceDTO.getType());
+            // Handle occurrences
+            if (zoomMeeting.getOccurrences() != null) {
+                List<Occurrence> occurrenceList = new ArrayList<>();
+                for (ZoomMeeting.Occurrence zoomOccurrence : zoomMeeting.getOccurrences()) {
+                    Occurrence occurrence = new Occurrence();
+                    occurrence.setOccurrenceId(zoomOccurrence.getOccurrence_id());
+                    occurrence.setStartTime(LocalDateTime.parse(zoomOccurrence.getStart_time()));
+                    occurrence.setDuration(zoomOccurrence.getDuration());
+                    occurrence.setStatus(zoomOccurrence.getStatus());
+                    occurrenceList.add(occurrence);
+                }
+                this.setOccurrences(occurrenceList);
             }
         }
     }
 
-    // Embedded Recurrence Class
     @Embeddable
     public static class Recurrence {
 
@@ -319,6 +334,70 @@ public class Meeting {
 
         public void setMonthlyWeekDay(Integer monthlyWeekDay) {
             this.monthlyWeekDay = monthlyWeekDay;
+        }
+    }
+
+
+    // Embedded Occurrence Class
+    @Entity
+    @Table(name = "occurrences")
+    public static class Occurrence {
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.AUTO)
+        private Long id;
+
+        @Column
+        private String occurrenceId;
+
+        @Column
+        private LocalDateTime startTime;
+
+        @Column
+        private int duration;
+
+        @Column
+        private String status;
+
+        // Getters and Setters
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getOccurrenceId() {
+            return occurrenceId;
+        }
+
+        public void setOccurrenceId(String occurrenceId) {
+            this.occurrenceId = occurrenceId;
+        }
+
+        public LocalDateTime getStartTime() {
+            return startTime;
+        }
+
+        public void setStartTime(LocalDateTime startTime) {
+            this.startTime = startTime;
+        }
+
+        public int getDuration() {
+            return duration;
+        }
+
+        public void setDuration(int duration) {
+            this.duration = duration;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
         }
     }
 }

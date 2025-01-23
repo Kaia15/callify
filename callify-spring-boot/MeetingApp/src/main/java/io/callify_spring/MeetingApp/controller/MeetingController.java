@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import jakarta.validation.Valid;
-
 import io.callify_spring.MeetingApp.dto.MeetingDTO;
 import io.callify_spring.MeetingApp.model.Meeting;
 import io.callify_spring.MeetingApp.service.MeetingService;
@@ -21,8 +19,6 @@ import java.util.*;
 import io.callify_spring.MeetingApp.model.UserInfo;
 import io.callify_spring.MeetingApp.model.ZoomMeeting;
 
-import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 @RestController
@@ -61,10 +57,10 @@ public class MeetingController {
         }
 
         // Make call to Zoom Service 
-        ZoomMeeting zoomMeeting = zoomService.createZoomMeeting();
+        ZoomMeeting zoomMeeting = this.zoomService.createZoomMeeting(meetingDto);
 
         // Forward to the service layer
-        Meeting meeting = meetingService.createMeetingByUser(meetingDto);
+        Meeting meeting = meetingService.createMeetingByUser(zoomMeeting);
 
         // Return the meeting ID
         return ResponseEntity.ok(meeting.getId());
@@ -102,8 +98,8 @@ public class MeetingController {
     }
 
     @GetMapping("/zoom/test")
-    public ZoomMeeting createMeetingByZoom() {
-        ZoomMeeting newZoomMeeting = this.zoomService.createZoomMeeting();
+    public ZoomMeeting createMeetingByZoom(MeetingDTO meetingDto) {
+        ZoomMeeting newZoomMeeting = this.zoomService.createZoomMeeting(meetingDto);
         return newZoomMeeting;
     }
 }
