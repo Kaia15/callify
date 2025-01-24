@@ -45,6 +45,7 @@ public class MeetingService implements IMeetingService {
         Meeting newMeeting = new Meeting();
         newMeeting.setMeetingFromZoomMeeting(zoomMeeting);
 
+
         this.meetingRepository.save(newMeeting);
 
         return newMeeting;

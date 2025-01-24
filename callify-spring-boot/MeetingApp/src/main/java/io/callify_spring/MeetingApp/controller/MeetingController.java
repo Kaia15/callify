@@ -98,7 +98,7 @@ public class MeetingController {
     }
 
     @GetMapping("/zoom/test")
-    public ZoomMeeting createMeetingByZoom(MeetingDTO meetingDto) {
+    public ZoomMeeting createMeetingByZoom(@RequestBody MeetingDTO meetingDto) {
         ZoomMeeting newZoomMeeting = this.zoomService.createZoomMeeting(meetingDto);
         return newZoomMeeting;
     }

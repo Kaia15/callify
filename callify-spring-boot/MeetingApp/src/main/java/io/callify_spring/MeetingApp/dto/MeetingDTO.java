@@ -109,7 +109,7 @@ public class MeetingDTO {
         private LocalDateTime startDateTime;
         private LocalDateTime endDateTime;
         private Integer endTimes;
-        private List<Integer> weeklyDays;
+        private String weeklyDays;
         private Integer monthlyDay;
         private Integer monthlyWeek;
         private Integer monthlyWeekDay;
@@ -155,11 +155,11 @@ public class MeetingDTO {
             this.endTimes = endTimes;
         }
 
-        public List<Integer> getWeeklyDays() {
+        public String getWeeklyDays() {
             return weeklyDays;
         }
 
-        public void setWeeklyDays(List<Integer> weeklyDays) {
+        public void setWeeklyDays(String weeklyDays) {
             this.weeklyDays = weeklyDays;
         }
 
@@ -193,43 +193,44 @@ public class MeetingDTO {
         JSONObject json = new JSONObject();
 
         // Top-level fields
-        json.put("id", this.getId());
-        json.put("joinUrl", this.getJoinUrl());
-        json.put("registrantId", this.getRegistrantId());
-        json.put("createdAt", this.getCreatedAt() != null 
-            ? this.getCreatedAt().format(DateTimeFormatter.ISO_DATE_TIME) 
-            : null);
-        json.put("meetingType", this.getMeetingType() != null 
-            ? this.getMeetingType().name() 
+        // json.put("id", this.getId());
+        // json.put("joinUrl", this.getJoinUrl());
+        // json.put("registrantId", this.getRegistrantId());
+        // json.put("createdAt", this.getCreatedAt() != null 
+        //     ? this.getCreatedAt().format(DateTimeFormatter.ISO_DATE_TIME) 
+        //     : null);
+        json.put("type", this.getMeetingType() != null 
+            ? this.getMeetingType().value()
             : null);
         json.put("topic", this.getTopic());
-        json.put("duration", this.getDuration());
-        json.put("passcode", this.getPasscode());
+        json.put("password", this.getPasscode());
+        json.put("timezone", "America/Los_Angeles");
 
         // Recurrence
         if (this.getRecurrence() != null) {
             JSONObject recurrenceJson = new JSONObject();
             MeetingDTO.RecurrenceDTO recurrenceDTO = this.getRecurrence();
 
-            recurrenceJson.put("type", recurrenceDTO.getType() != null ? recurrenceDTO.getType().name() : null);
-            recurrenceJson.put("repeatInterval", recurrenceDTO.getRepeatInterval());
-            recurrenceJson.put("startDateTime", recurrenceDTO.getStartDateTime() != null 
+            recurrenceJson.put("type", recurrenceDTO.getType() != null ? recurrenceDTO.getType().value() : null);
+            recurrenceJson.put("duration", this.getDuration());
+            recurrenceJson.put("repeat_interval", recurrenceDTO.getRepeatInterval());
+            recurrenceJson.put("start_time", recurrenceDTO.getStartDateTime() != null 
                 ? recurrenceDTO.getStartDateTime().format(DateTimeFormatter.ISO_DATE_TIME) 
                 : null);
-            recurrenceJson.put("endDateTime", recurrenceDTO.getEndDateTime() != null 
+            recurrenceJson.put("end_date_time", recurrenceDTO.getEndDateTime() != null 
                 ? recurrenceDTO.getEndDateTime().format(DateTimeFormatter.ISO_DATE_TIME) 
                 : null);
-            recurrenceJson.put("endTimes", recurrenceDTO.getEndTimes());
-            recurrenceJson.put("weeklyDays", recurrenceDTO.getWeeklyDays());
-            recurrenceJson.put("monthlyDay", recurrenceDTO.getMonthlyDay());
-            recurrenceJson.put("monthlyWeek", recurrenceDTO.getMonthlyWeek());
-            recurrenceJson.put("monthlyWeekDay", recurrenceDTO.getMonthlyWeekDay());
+            recurrenceJson.put("end_times", recurrenceDTO.getEndTimes());
+            recurrenceJson.put("weekly_days", recurrenceDTO.getWeeklyDays());
+            recurrenceJson.put("monthly_day", recurrenceDTO.getMonthlyDay());
+            recurrenceJson.put("monthly_week", recurrenceDTO.getMonthlyWeek());
+            recurrenceJson.put("monthly_week_day", recurrenceDTO.getMonthlyWeekDay());
 
             json.put("recurrence", recurrenceJson);
         }
 
         // Attendees
-        json.put("attendeesIds", this.getAttendeesIds() != null ? new JSONArray(this.getAttendeesIds()) : new JSONArray());
+        // json.put("attendeesIds", this.getAttendeesIds() != null ? new JSONArray(this.getAttendeesIds()) : new JSONArray());
 
         return json;
     }

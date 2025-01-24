@@ -2,6 +2,8 @@ package io.callify_spring.MeetingApp.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,10 +16,10 @@ public class Meeting {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column
+    @Column(name = "join_url", columnDefinition = "text")
     private String joinUrl;
 
-    @Column
+    @Column(name = "start_url", columnDefinition = "text")
     private String startUrl;
 
     @Column
@@ -177,6 +179,12 @@ public class Meeting {
         this.occurrences = occurrences;
     }
 
+    public LocalDateTime parseTime(String time) {
+        OffsetDateTime offsetTime = OffsetDateTime.parse(time,DateTimeFormatter.ISO_DATE_TIME);
+        LocalDateTime localTime = offsetTime.toLocalDateTime();
+        return localTime;
+    }
+
     // Method to set Meeting from ZoomMeeting
     public void setMeetingFromZoomMeeting(ZoomMeeting zoomMeeting) {
         if (zoomMeeting != null) {
@@ -189,7 +197,7 @@ public class Meeting {
             this.setHostId(zoomMeeting.getHost_id());
             this.setHostEmail(zoomMeeting.getHost_email());
             this.setCreatedAt(zoomMeeting.getCreated_at() != null
-                ? LocalDateTime.parse(zoomMeeting.getCreated_at()) : LocalDateTime.now());
+                ? this.parseTime(zoomMeeting.getCreated_at()) : LocalDateTime.now());
             this.setMeetingType(zoomMeeting.getType() == 8 ? 
                 MeetingType.RECURRING_FIXED_TIME : MeetingType.SCHEDULED);
 
@@ -209,8 +217,11 @@ public class Meeting {
 
                 recurrence.setRepeatInterval(zoomMeeting.getRecurrence().getRepeat_interval());
                 recurrence.setMonthlyDay(zoomMeeting.getRecurrence().getMonthly_day());
+                
+                // OffsetDateTime offsetEndDateTime = OffsetDateTime.parse(zoomMeeting.getRecurrence().getEnd_date_time(),DateTimeFormatter.ISO_DATE_TIME);
                 recurrence.setEndDateTime(zoomMeeting.getRecurrence().getEnd_date_time() != null
-                    ? LocalDateTime.parse(zoomMeeting.getRecurrence().getEnd_date_time()) : null);
+                    ? this.parseTime(zoomMeeting.getRecurrence().getEnd_date_time()) : null);
+                
                 this.setRecurrence(recurrence);
             }
 
@@ -220,7 +231,7 @@ public class Meeting {
                 for (ZoomMeeting.Occurrence zoomOccurrence : zoomMeeting.getOccurrences()) {
                     Occurrence occurrence = new Occurrence();
                     occurrence.setOccurrenceId(zoomOccurrence.getOccurrence_id());
-                    occurrence.setStartTime(LocalDateTime.parse(zoomOccurrence.getStart_time()));
+                    occurrence.setStartTime(this.parseTime(zoomOccurrence.getStart_time()));
                     occurrence.setDuration(zoomOccurrence.getDuration());
                     occurrence.setStatus(zoomOccurrence.getStatus());
                     occurrenceList.add(occurrence);

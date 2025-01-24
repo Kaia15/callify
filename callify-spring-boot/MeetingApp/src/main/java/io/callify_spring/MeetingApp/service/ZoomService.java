@@ -83,6 +83,7 @@ public class ZoomService {
             // // Add the recurrence object to the meeting details
             // meetingDetails.put("recurrence", recurrence);
 
+            // System.out.println(meetingDetails.toString());
 
             // Set headers
             HttpHeaders headers = new HttpHeaders();
