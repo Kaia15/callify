@@ -1,7 +1,3 @@
-# OKml Interpreter
-
-This project implements an interpreter for a core fragment of OCaml called OKml (pronounced "oh-kay-mull"). This language OKml is designed so that any valid OKml program should behave the same when treated as an OCaml program.
-
 ## Workflow
 Developers working on this project should adhere to the following workflow:
 
@@ -26,7 +22,7 @@ git add <files>
 ```
 - Commit with a descriptive message:
 ```bash
-git commit -m "feat(lexing): implement Lexer for OKml"
+git commit -m "feat(backend): implement Service A for application A"
 ```
 
 4. Stay up-to-date with master while working
